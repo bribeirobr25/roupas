@@ -95,6 +95,11 @@ Sem outras dependências pesadas. Testes com `vitest` (rápido, TS nativo). Fixt
 - **2026-06-06 — Verificação no navegador (build de produção).** Os 4 estados (input/analyzing/result/error), troca + persistência de idioma, fetch server-side ao vivo e selo de marca auditada foram validados via Playwright em mobile (430px) e desktop (1280px). Obs.: em `next dev` sobre IP da LAN o HMR (Turbopack) não conecta e a hidratação não ocorre — testar interatividade com `pnpm build && pnpm start`. Não afeta produção (Vercel).
 - **2026-06-06 — `maxDuration = 15` no route handler** para respeitar o teto de execução do free tier (SPEC: timeout de análise 15–20s); runtime `nodejs` (cheerio + controle total de fetch).
 
+- **2026-06-06 — Lojas que bloqueiam leitura server-side (testado em produção).** Diagnóstico após o dono reportar "Couldn't read the page":
+  - **Funcionam** (marcas diretas, sem anti-bot pesado): Asket, SANVT, Norse Projects, Merz b. Schwanen, UNIQLO. Ex.: SANVT 185 GSM, Norse 260 GSM, Merz 200 GSM — todos lidos ao vivo.
+  - **Não funcionam** (bloqueio por IP de datacenter / TLS-fingerprint estilo Akamai, OU SPA JS-heavy): **Zara** (HTML inicial é shell de ~2,4 KB sem ficha — dado só existe após JS) e **Hollister** (serve a ficha completa a IP residencial, mas devolve 403 ao IP da Vercel). Retornam `anti-bot`/`js-heavy` corretamente.
+  - **Conclusão:** é o resíduo irredutível por meios remotos (relatório §12.3). Sem solução no v1 (headless/proxy residencial fora do escopo/free tier). Melhoramos os headers (fetch-metadata + client hints) para ampliar cobertura em lojas com checagem simples; não vence Akamai. Comportamento honesto mantido: nunca inventa, diz "não foi possível ler".
+
 ## 6. Status do Definition of Done (CLAUDE.md §8)
 
 - [x] Stack escolhida e justificada (§5.1).
