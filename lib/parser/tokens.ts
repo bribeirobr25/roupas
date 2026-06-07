@@ -28,15 +28,37 @@ const FIBER_KEYWORDS: Array<[string, string[]]> = [
 // capped to avoid running across unrelated words.
 const COMPOSITION_RE = /(\d{1,3}(?:[.,]\d+)?)\s*%\s*([a-z][a-z\- ]{0,40})/g;
 
+// Prose connectors (EN/DE/PT/ES). If one of these sits between the "%" and the
+// fiber word, the match is a sentence ("1% of the global cotton production"),
+// NOT a composition ("1% organic cotton"). Fiber qualifiers (organic, combed,
+// supima, extra/long/staple, recycled, pure…) are deliberately NOT listed.
+const PROSE_STOPWORDS = new Set([
+  "of", "the", "a", "an", "our", "your", "we", "is", "are", "for", "from",
+  "with", "world", "global", "than", "less", "more", "most", "all", "in", "to",
+  "by", "made", "that", "this", "only", "about", "per", "und", "oder", "mit",
+  "aus", "von", "der", "die", "das", "den", "dem", "de", "do", "da", "com",
+  "no", "na", "del", "con", "los", "las", "el",
+]);
+
 function baseFiberOf(phrase: string): string | null {
+  let best: { fiber: string; index: number } | null = null;
   for (const [canonical, kws] of FIBER_KEYWORDS) {
     for (const kw of kws) {
       // word-boundary match so "la" doesn't match inside "lana"/"algodon"
-      const re = new RegExp(`(^|[^a-z])${kw}([^a-z]|$)`);
-      if (re.test(phrase)) return canonical === "lyocell" ? "tencel" : canonical;
+      const m = phrase.match(new RegExp(`(^|[^a-z])${kw}([^a-z]|$)`));
+      if (m && m.index != null) {
+        const idx = m.index + m[1].length;
+        if (best == null || idx < best.index)
+          best = { fiber: canonical === "lyocell" ? "tencel" : canonical, index: idx };
+      }
     }
   }
-  return null;
+  if (!best) return null;
+  // Reject prose: stopwords before the fiber mean this is a sentence, not a
+  // composition (guards against "1% of the global cotton …").
+  const pre = phrase.slice(0, best.index).trim();
+  if (pre && pre.split(/[\s-]+/).some((w) => PROSE_STOPWORDS.has(w))) return null;
+  return best.fiber;
 }
 
 export function extractComposition(text: string): CompositionPart[] {

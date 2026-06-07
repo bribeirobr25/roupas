@@ -207,6 +207,24 @@ describe("parser — scoring & wrinkle edge cases", () => {
     expect(r.category).toBe("shirt");
   });
 
+  it("does NOT read composition from marketing prose", () => {
+    // SANVT-style sentence: "...1% of the global cotton production..." must not
+    // become a 1% cotton finding (it's prose, not a composition).
+    const r = parse(
+      "The Perfect T-Shirt. ELS cotton represents only 1% of the global cotton production. 185 GSM.",
+    );
+    expect(r.findings.fiber.value).toBeNull(); // no false "1% cotton"
+    expect(r.findings.gsm.value).toBe(185);
+    expect(r.findings.fiberType.value).toBe("long-staple");
+  });
+
+  it("still reads composition with real fiber qualifiers (organic, ELS)", () => {
+    expect(parse("100% organic cotton").findings.fiber.value).toBe("100% cotton");
+    expect(
+      parse("95% extra long staple cotton, 5% elastane").findings.fiber.value,
+    ).toBe("95% cotton, 5% elastane");
+  });
+
   it("dedupes a composition that repeats across the page", () => {
     // Same block appears in JSON-LD + visible + meta -> must not repeat.
     const r = parse(
