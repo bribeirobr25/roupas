@@ -35,6 +35,12 @@ Cuidado com ambiguidades: "Shirt" em alemão/inglês pode ser camiseta ou camisa
 
 ### 4.1 Fibra base / composição
 Procurar padrões de composição com `%`: ex. `100% cotton`, `95% cotton 5% elastane`, `50% cotton 50% tencel`.
+
+> **Robustez implementada (2026-06-07, pós-auditoria com lojas reais):**
+> - **Rejeitar prosa.** Um `%` seguido de texto corrido não é composição. "1% **of the global** cotton production" (marketing da SANVT) NÃO vira `1% cotton` — se houver stopwords (of/the/global/de/da/und…) entre o `%` e a fibra, o match é descartado. Qualificadores reais (organic, ELS, combed, supima…) passam.
+> - **Deduplicar.** O bloco de composição se repete na página (JSON-LD + visível + meta) → dedupe por fibra+%, para não exibir "100% cotton, 100% cotton, 100% cotton".
+> - **Não inventar de produto vizinho.** A extração (em `lib/extract`) remove nav/footer, **links** (`<a>`), seções de relacionados e cards de produto (`product-card/tile/grid/slider/carousel`), e lê JSON-LD **apenas de nós `Product`** (ignora `BreadcrumbList`/categorias). Isso evita falsos achados como `weave: denim` vindo de um produto recomendado.
+> - **Separar texto colado.** Espaços inseridos entre elementos de bloco para não juntar "35% cotton" + "Imported" → "cottonImported" (que quebraria a leitura da fibra).
 - **algodão:** cotton (EN) / algodão (PT) / Baumwolle (DE) / algodón (ES)
 - **linho:** linen / linho / Leinen / lino
 - **poliéster:** polyester / poliéster / Polyester / poliéster
@@ -100,7 +106,7 @@ A UI deve sempre mostrar **o que sustentou o score** (findings verificados), nun
 ## 6. Veredito de "amassa muito?" (`wrinkle`)
 
 Objetivo central do dono. Regras:
-- **low:** contém TENCEL/lyocell em proporção relevante; OU non-iron/wrinkle-free; OU malha (jersey/french terry/fleece) — malha amassa pouco por natureza; OU merino.
+- **low:** contém TENCEL/lyocell em proporção relevante; OU non-iron/wrinkle-free; OU malha (jersey/french terry/fleece) — malha amassa pouco por natureza; OU merino; OU **sintético dominante (poliéster ≥ 50%)** — sintéticos resistem ao amassado [2026-06-07].
 - **medium:** algodão + elastano (2–8%); algodão pesado estruturado.
 - **high:** 100% algodão tecido plano (popeline/oxford/twill leve) sem tratamento; linho ou cotton-linen alto (linho amassa muito).
 - **unknown:** sem dados de fibra/tecido suficientes.

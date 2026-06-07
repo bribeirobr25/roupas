@@ -64,6 +64,14 @@ Shops with Akamai/Shape-grade anti-bot (e.g. **Hollister**, some **H&M**) block
 the proxy too — those stay honestly `unreadable`. Covering them needs a headless
 browser or residential proxy (roadmap; out of free-tier scope).
 
+## Reading only the product's own facts
+
+Extraction is defensive so a page's noise never becomes a false finding: it drops
+nav/footer, links, and related-product cards/carousels, reads JSON-LD only from
+`Product` nodes, dedupes repeated composition, and ignores marketing prose
+(e.g. "1% of the global cotton production" is not a 1% cotton composition). It
+reports only what the product page actually states. See `docs/PARSER.md §4.1`.
+
 ## Honest limitations
 
 Data that shops never publish (e.g. GSM at Zara/H&M) cannot be invented — the app

@@ -108,6 +108,15 @@ Sem outras dependências pesadas. Testes com `vitest` (rápido, TS nativo). Fixt
   - **Refinamentos do parser** (todos com teste): confiança conta o `fiberType` como fibra mesmo sem composição "NN%"; regex de composição aceita markdown depois do valor; detecção de categoria por contagem + slug da URL autoritativo (imune a ruído de nav); texto do reader afunilado à seção do produto (`focusReaderText`) para não inventar dado de produto vizinho.
   - **Docs sincronizados** (SPEC §2/§3 contrato camelCase + timeout; PARSER §5/§7; I18N §2; CLAUDE §7 roadmap + §8 DoD; README). Suíte: 47 testes.
 
+- **2026-06-07 — Auditoria de acurácia com 12 lojas reais + autorrevisão.** O dono testou 12 URLs; vários "ok" estavam imprecisos. Bugs encontrados e corrigidos (ver PARSER §4.1, §6):
+  - composição duplicada ("100% cotton, 100% cotton, …") → dedupe;
+  - categoria errada (Blue Tomato "T+Shirt") → `categoryFromUrl` trata separadores `+`/`_`/`%20`;
+  - **falso `weave: denim`** (Dickies, vindo de card de produto relacionado) → extração remove links + cards/grids de relacionados; JSON-LD lido só de nós `Product` (ignora breadcrumb); JSON-LD passou a rodar **antes** de remover `<script>` (estava sempre vazio);
+  - fibra colada ("cottonImported") → espaços entre elementos de bloco;
+  - poliéster dominante (≥50%) → wrinkle `low`;
+  - **falsa composição vinda de prosa** ("1% of the global cotton" da SANVT) → guarda de stopwords entre `%` e a fibra.
+  - Autorrevisão endureceu efeitos colaterais: JSON-LD escopo `Product`, spacing sem `<span>` (não quebrar números), não remover `product-item`/`product-list` (PDP Magento), hood cue vence pullover. **Regressão validada ao vivo** nas marcas-âncora (Asket/SANVT/Norse/Merz) — sem drift. `extractText` ~89ms em página de 727 KB. Suíte: **55 testes**.
+
 ## 6. Status do Definition of Done (CLAUDE.md §8)
 
 - [x] Stack escolhida e justificada (§5.1).
