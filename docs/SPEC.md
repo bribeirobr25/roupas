@@ -14,7 +14,7 @@
 ## 2. Estados de tela
 
 - **input** — estado inicial. Validação de URL no cliente (formato http/https). Mensagem de erro amigável se a URL for inválida.
-- **analyzing** — disparado ao enviar. Mostra animação + cards. Deve ter timeout (ex.: 15–20s); se estourar, vai para `error`.
+- **analyzing** — disparado ao enviar. Mostra animação + cards. Tem timeout (cliente ~29s, função `maxDuration` 30s); se estourar, vai para `error`. **Nota (2026-06-07):** o teto subiu de 15–20s para ~30s para acomodar o fallback de leitura via reader-proxy (lojas bloqueadas/JS-heavy). Lojas que abrem direto respondem em 1–3s; só o fallback usa o tempo extra. Ver `DECISIONS.md §2`.
 - **result** — renderiza o JSON retornado pela API. Ver seção 4.
 - **error / unreadable** — quando a API não conseguiu ler a página (CORS no destino, anti-bot, JS pesado, 404, timeout). Mensagem honesta: "Não foi possível ler esta página automaticamente" + sugestão (tentar outra URL, ou conferir a etiqueta manualmente com base no guia). **Nunca** mostrar um resultado falso nesse caso.
 
@@ -42,19 +42,21 @@
   "missing": [ "gsm", "spinning" ],
   "score": { "value": 72, "band": "high | medium | low | indeterminate" },
   "wrinkle": "low | medium | high | unknown",
-  "brandMatch": { "name": "Asket", "note": "Marca auditada; dados de referência disponíveis", "ref": true },
+  "brandMatch": { "name": "Asket", "noteKey": "result.brandMatch", "ref": true },
   "confidence": "verified | partial | unreadable",
   "rawNotes": "string opcional para debug (não exibir ao usuário final)"
 }
 ```
 
+> **Nota de implementação (2026-06-07):** as chaves do contrato são **camelCase** no código (`messageKey`, `noteKey`), não snake_case. `brandMatch` devolve `noteKey: "result.brandMatch"` (chave de i18n), não um texto pronto — o frontend traduz. `findings.gsm` pode incluir `note: "derived from oz/yd²"` quando convertido de onças. Tipos canônicos em `lib/types.ts`.
+
 **Response (não foi possível ler):**
 ```json
-{ "status": "unreadable", "reason": "anti-bot | js-heavy | not-found | timeout | blocked", "message_key": "error.unreadable" }
+{ "status": "unreadable", "reason": "anti-bot | js-heavy | not-found | timeout | blocked", "messageKey": "error.unreadable" }
 ```
 
 Regras:
-- Todo texto exibível ao usuário vem por **chave de i18n** (`message_key`), nunca string pronta da API. A API devolve chaves + dados; o frontend traduz. (Exceção: valores extraídos como "100% organic cotton" são dados, exibidos como vêm.)
+- Todo texto exibível ao usuário vem por **chave de i18n** (`messageKey`/`noteKey`), nunca string pronta da API. A API devolve chaves + dados; o frontend traduz. (Exceção: valores extraídos como "100% organic cotton" são dados, exibidos como vêm.)
 - `verified: true` = o dado foi lido da página. `verified: false` = inferido/ausente. A UI deve diferenciar visualmente.
 
 ## 4. Como renderizar o resultado

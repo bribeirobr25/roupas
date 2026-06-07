@@ -93,6 +93,8 @@ Esquema sugerido (o Claude Code pode refinar, mas mantenha a ordem de prioridade
 - `low` — leve demais / muito sintético sem propósito / sinais fracos.
 - `indeterminate` — **dado insuficiente** (ex.: "100% cotton" e nada mais). NÃO é nota baixa; o veredito deve dizer "faltam dados para concluir".
 
+> **Refinamento implementado (2026-06-07):** o `indeterminate` é decidido por **corroboração**, não só por "100% cotton". Se NÃO houver nenhum entre {GSM, tecelagem, construção, non-iron, fiação premium, poliéster alto}, a band é `indeterminate` — **mesmo com fibra premium** lida (fibra sozinha não basta para julgar; espelha a regra de confiança §7). `low` exige evidência negativa real (poliéster alto, GSM leve com fibra comum, ou score muito baixo COM corroboração), nunca ausência de dado. (Bug corrigido após teste ao vivo: fibra boa sozinha dava `low`; agora dá `indeterminate` + `partial`.)
+
 A UI deve sempre mostrar **o que sustentou o score** (findings verificados), nunca só o número.
 
 ## 6. Veredito de "amassa muito?" (`wrinkle`)
@@ -112,6 +114,11 @@ Notas: linho = amassa muito (mesmo sendo premium). Tecido plano de algodão puro
 - **unreadable:** página não pôde ser lida (tratado antes, em SPEC §2/§3).
 
 A confiança nunca deve ser inflada. Faltou dado → confiança cai → a UI mostra isso.
+
+> **Refinamentos implementados (2026-06-07):**
+> - **"Fibra" inclui o TIPO de fibra.** Saber `fiberType` (Supima/long-staple/etc.) conta como fibra lida mesmo sem a string de composição "NN% cotton" — algumas lojas (SANVT, Norse) declaram o tipo mas não a porcentagem. Sem isso, elas davam `partial` tendo GSM + tipo de fibra.
+> - **Categoria: o slug da URL é autoritativo** quando conhecido (imune a ruído de nav/produtos relacionados); a detecção por texto é fallback. Detecção por texto é por contagem (um "hoodie" perdido não vence 276 "shirt").
+> - **Texto do reader-proxy é afunilado** (`focusReaderText`, em `lib/extract`) para a seção do produto antes de extrair tokens, evitando falsos achados (ex.: "denim" de um produto relacionado). Ver DECISIONS §2.
 
 ## 8. Casos de teste (mínimos — expandir)
 

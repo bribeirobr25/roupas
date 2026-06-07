@@ -113,11 +113,15 @@ Estes são padrões de trabalho estabelecidos. Seguir:
 
 ## 8. Definition of done da v1
 
-- [ ] Stack escolhida e justificada em `docs/DECISIONS.md`.
-- [ ] `/api/analyze` lê uma página real e devolve JSON estruturado.
-- [ ] Parser cobre as 4 categorias e os tokens nos 4 idiomas (ver PARSER.md).
-- [ ] Nunca inventa GSM/fibra ausente; degrada confiança corretamente.
-- [ ] i18n funcionando com detecção por browser + seletor; nenhuma string hard-coded.
-- [ ] Estados de UI: input, analisando (com animação + cards placeholder), resultado, erro/"não foi possível ler".
-- [ ] Responsivo, acessível, deploy no Vercel free funcionando.
-- [ ] README com instruções de dev e deploy.
+> Status em 2026-06-07: **completo e em produção** (https://roupas-khaki.vercel.app). Detalhe e rastreabilidade em `docs/DECISIONS.md §6`.
+
+- [x] Stack escolhida e justificada em `docs/DECISIONS.md`.
+- [x] `/api/analyze` lê uma página real e devolve JSON estruturado.
+- [x] Parser cobre as 4 categorias e os tokens nos 4 idiomas (ver PARSER.md).
+- [x] Nunca inventa GSM/fibra ausente; degrada confiança corretamente.
+- [x] i18n funcionando com detecção por browser + seletor; nenhuma string hard-coded.
+- [x] Estados de UI: input, analisando (com animação + cards placeholder), resultado, erro/"não foi possível ler".
+- [x] Responsivo, acessível, deploy no Vercel free funcionando.
+- [x] README com instruções de dev e deploy.
+
+> Pendências não-bloqueantes: nome final (`[NOME_DO_PROJETO]` ainda placeholder — dono optou por decidir depois; centralizado em `lib/brand.ts`); revisão nativa do copy ES.

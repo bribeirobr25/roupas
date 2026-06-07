@@ -12,8 +12,10 @@ Implicações:
 
 ## 2. Limitações reais (a UI deve refletir, não esconder)
 
-1. **Lojas com JS pesado / SPA:** muitas carregam a ficha técnica depois, via API interna (o HTML inicial vem "vazio"). Nesses casos a função pode não achar GSM/composição → retornar `unreadable` ou `partial`, nunca inventar. (Opção futura: renderização headless — fora do escopo/free tier v1.)
+1. **Lojas com JS pesado / SPA:** muitas carregam a ficha técnica depois, via API interna (o HTML inicial vem "vazio"). Nesses casos a função pode não achar GSM/composição → retornar `unreadable` ou `partial`, nunca inventar.
 2. **Anti-bot (Cloudflare, etc.):** algumas páginas bloqueiam requisições automatizadas → `unreadable` com `reason: anti-bot`.
+
+> **Mitigação implementada (2026-06-07) — fallback via reader-proxy.** Quando o fetch direto é bloqueado (anti-bot por IP de datacenter) ou a página é JS-heavy/thin, a função tenta um segundo caminho: o reader-proxy gratuito e sem chave `r.jina.ai`, que renderiza o JS a partir do **IP dele** e devolve texto. Isso resolve **Zara** e SPAs semelhantes (1 e 2 acima deixam de ser becos sem saída para esses casos). O texto do proxy é a página inteira (markdown), então o parser lê só a seção do produto (`focusReaderText`) para não atribuir dado de produto vizinho — honestidade acima de cobertura. Limite: lojas com anti-bot que bloqueiam também o proxy (Akamai/Shape, ex. **Hollister**) seguem `unreadable`. Cobri-las exige headless/proxy residencial (CLAUDE §7 roadmap). `JINA_API_KEY` opcional para limites maiores.
 3. **Dado que não existe:** Zara/H&M frequentemente não publicam GSM. Não há solução técnica — só a etiqueta física. A ferramenta diz isso honestamente (`partial`, score `indeterminate`).
 4. **Free tier do Vercel:** limites de execução/tempo das serverless functions. Manter a função enxuta; sem dependências pesadas de scraping headless na v1.
 
@@ -78,7 +80,7 @@ Decisões de detalhe a confirmar na aprovação: **Tailwind vs CSS Modules** (pr
 **`cheerio`** para parsing leve do HTML server-side. Sem headless (Puppeteer/Playwright) na v1 — pesado demais para o free tier e desnecessário para páginas com ficha técnica no HTML inicial (DECISIONS §2.1, §2.4).
 
 Estratégia de extração (na função `/api/analyze`, antes de passar texto ao parser):
-1. `fetch` com `User-Agent` realista, timeout ~12s, seguir redirects, abortar se resposta não-HTML ou status de erro → `unreadable`.
+1. `fetch` com headers de navegador realistas, timeout ~9s (fast path; o fallback reader-proxy tem ~18s), seguir redirects, abortar se resposta não-HTML ou status de erro → `unreadable`. (Ver fallback em §2.)
 2. Com cheerio: remover `<script>`/`<style>`/`<nav>`/`<footer>`; extrair em ordem de prioridade (a) **JSON-LD** (`<script type="application/ld+json">` — muitas lojas expõem `Product` com material/descrição estruturados), (b) blocos de ficha técnica/descrição/composição, (c) texto visível geral como fallback.
 3. Passar esse texto consolidado ao PARSER (que faz normalização + tokens multi-idioma).
 4. Heurística de "página vazia/SPA": se o texto útil for muito curto ou não contiver nenhum sinal de composição → `partial`/`unreadable` conforme o caso, **nunca** inventar (PARSER §2, §7).
@@ -99,6 +101,12 @@ Sem outras dependências pesadas. Testes com `vitest` (rápido, TS nativo). Fixt
   - **Funcionam** (marcas diretas, sem anti-bot pesado): Asket, SANVT, Norse Projects, Merz b. Schwanen, UNIQLO. Ex.: SANVT 185 GSM, Norse 260 GSM, Merz 200 GSM — todos lidos ao vivo.
   - **Não funcionam** (bloqueio por IP de datacenter / TLS-fingerprint estilo Akamai, OU SPA JS-heavy): **Zara** (HTML inicial é shell de ~2,4 KB sem ficha — dado só existe após JS) e **Hollister** (serve a ficha completa a IP residencial, mas devolve 403 ao IP da Vercel). Retornam `anti-bot`/`js-heavy` corretamente.
   - **Conclusão:** é o resíduo irredutível por meios remotos (relatório §12.3). Sem solução no v1 (headless/proxy residencial fora do escopo/free tier). Melhoramos os headers (fetch-metadata + client hints) para ampliar cobertura em lojas com checagem simples; não vence Akamai. Comportamento honesto mantido: nunca inventa, diz "não foi possível ler".
+
+- **2026-06-07 — Fallback via reader-proxy + ajustes (supera o item maxDuration=15 acima).**
+  - Adicionado fallback gratuito/sem-chave `r.jina.ai` quando o fetch direto é bloqueado/thin (ver §2). **Zara passou a funcionar**; Hollister segue bloqueado (Akamai bloqueia o proxy também).
+  - **`maxDuration` 15 → 30** e timeout do cliente → ~29s para acomodar direto (~9s) + reader (~18s). Lojas que abrem direto seguem em 1–3s.
+  - **Refinamentos do parser** (todos com teste): confiança conta o `fiberType` como fibra mesmo sem composição "NN%"; regex de composição aceita markdown depois do valor; detecção de categoria por contagem + slug da URL autoritativo (imune a ruído de nav); texto do reader afunilado à seção do produto (`focusReaderText`) para não inventar dado de produto vizinho.
+  - **Docs sincronizados** (SPEC §2/§3 contrato camelCase + timeout; PARSER §5/§7; I18N §2; CLAUDE §7 roadmap + §8 DoD; README). Suíte: 47 testes.
 
 ## 6. Status do Definition of Done (CLAUDE.md §8)
 
