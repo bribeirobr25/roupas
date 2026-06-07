@@ -104,7 +104,10 @@ Estes são padrões de trabalho estabelecidos. Seguir:
 ## 7. Roadmap (orientação, não obrigação)
 
 - **v1 (este escopo):** análise de URL única, 4 categorias, 4 idiomas, resultado honesto, cards placeholder. Sem login, sem banco.
-- **Futuro (não implementar agora):** histórico, comparar 2 peças, ads reais, mais categorias, base de marcas expandida, modo "descobrir/comparar vários produtos".
+- **Implementado pós-v1 (2026-06-07):** fallback de leitura via reader-proxy gratuito (r.jina.ai) quando o fetch direto é bloqueado (anti-bot por IP de datacenter) ou a página é JS-heavy. Renderiza JS a partir do IP do proxy e devolve texto; o parser lê só a seção do produto (`focusReaderText`) para não inventar dado de produto vizinho. Resolve **Zara** e lojas JS-heavy semelhantes. **Hollister** segue bloqueado (Akamai bloqueia também o proxy) → continua honestamente `unreadable`.
+- **Futuro (não implementar agora):**
+  - **Leitura avançada para lojas com anti-bot forte (Akamai/Shape) e SPAs pesadas:** navegador headless (Playwright/Puppeteer) ou proxy residencial. Cobriria Hollister, H&M e similares que bloqueiam tanto o fetch direto quanto o reader-proxy. Fora do v1 por custo (serviço pago) e limites do free tier do Vercel. Avaliar: Vercel + Browserless/ScrapingBee/Bright Data, ou função separada com `@sparticuz/chromium`. Manter o princípio de nunca inventar dado.
+  - histórico, comparar 2 peças, ads reais, mais categorias, base de marcas expandida, modo "descobrir/comparar vários produtos".
 
 ---
 

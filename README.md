@@ -51,9 +51,21 @@ Deployed on **Vercel free tier**. Push to the connected repo or run `vercel`.
 The analysis endpoint runs as a Node.js serverless function (needs cheerio + full
 fetch control, so not Edge runtime).
 
+## Reading blocked / JS-heavy shops
+
+The direct server fetch is the fast path. When it is blocked (datacenter-IP
+anti-bot) or thin (JS-heavy SPA), the app falls back to a free, keyless reader
+proxy (`r.jina.ai`) that renders JS from its own IP and returns text. The parser
+then reads only the product section so a neighbouring product's data can't leak
+in. This makes shops like **Zara** readable. Set `JINA_API_KEY` (optional) for
+higher rate limits.
+
+Shops with Akamai/Shape-grade anti-bot (e.g. **Hollister**, some **H&M**) block
+the proxy too — those stay honestly `unreadable`. Covering them needs a headless
+browser or residential proxy (roadmap; out of free-tier scope).
+
 ## Honest limitations
 
-JS-heavy / SPA shops and anti-bot pages may not be readable server-side; data
-that shops never publish (e.g. GSM at Zara/H&M) cannot be invented. In those
-cases the app returns `unreadable` or `partial` and says so. See
-`docs/DECISIONS.md §2`.
+Data that shops never publish (e.g. GSM at Zara/H&M) cannot be invented — the app
+returns `partial` / `indeterminate` and says so. It never guesses. See
+`docs/DECISIONS.md §2` and `CLAUDE.md §7` (roadmap).
