@@ -131,6 +131,14 @@ Sem outras dependências pesadas. Testes com `vitest` (rápido, TS nativo). Fixt
   - **Gate:** +1 `it` em `matchBrandByHost`; **56 testes**, tsc/lint/build verdes. KB: 10 marcas, 20 produtos; `brands.ts` ↔ §7 em sync.
   - **Docs sincronizados neste passo:** `CLAUDE.md §4` (Fontes de verdade agora cita `guides/cruzamentos/`); header de `brands.ts` distingue originais (audit 06-06) vs. lote (web_fetch oficial).
 
+- **2026-06-09 — Fase 4 (aprofundamento, pesquisa no chat): lotes 2–5 preparados, ainda NÃO integrados.** Continuação da curadoria, todos verificados em fonte oficial, gravados em `guides/cruzamentos/` com índice mestre `INDICE-lotes-fase4.md`. Cada lote é handoff independente para o Claude Code (Fase 5).
+  - **Lote 2** (`...-lote2.md`, sem schema): verified = Asphalte (camisa c/ GSM 150/155), ISTO. camisas (4 produtos 140/160/175/200 — anexar à marca existente), American Giant (Supima oz→g 102/129/207). partial = Hast, Dudalina (Wrinkle Free = non-iron químico), Community Clothing.
+  - **Lote 3** (`...-lote3.md`, MUDA SCHEMA): decisão do dono **Opção B** → adicionar `egyptian` a `FiberType` + `FIBER_QUALITY`(=4) + `PREMIUM_FIBERS`. verified = Finamore (Giza 45 170/2). partial = Kiton, Borrelli (100% cotton genérico; luxo é manufatura, não fibra cravada).
+  - **Lote 4** (`...-lote4.md`, sem schema): pendentes ES, todos partial e opcionais. Pompeii (origem PT), Silbon; **Scalpers não recomendado** (marginal).
+  - **Lote 5** (`...-lote5.md`, MUDA SCHEMA): decisão do dono **Opção 2** → adicionar `modal` a `FiberType` + `FIBER_QUALITY`(=4) + `PREMIUM_FIBERS`. verified = Insider (92% TENCEL modal + 8% elastano; NEXTECH = TENCEL Lyocell). **Sepiia deliberadamente fora** (100% poliéster — parser já penaliza; KB é curadoria de qualidade natural).
+  - **Duas decisões de escopo do dono:** (1) algodão egípcio/Giza vira `fiberType: egyptian` (Giza 45 fica no campo `fiber` como texto, não vira enum); (2) tech entra só com fibra natural (Insider sim, Sepiia não).
+  - **Próximo passo (Fase 5, no Claude Code):** integrar lotes 2–5 incrementalmente (ordem sugerida no índice), isolando cada mudança de schema (egyptian, modal) em commit próprio; partials só com aprovação explícita. Mesmo gate: test/lint/build verdes, asserts de `matchBrandByHost`, sync `brands.ts` ↔ KNOWLEDGE-BASE §7.
+
 ## 6. Status do Definition of Done (CLAUDE.md §8)
 
 - [x] Stack escolhida e justificada (§5.1).
