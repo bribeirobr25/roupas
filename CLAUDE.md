@@ -73,6 +73,7 @@ Os arquivos abaixo são a origem do guia, do relatório e da auditoria. O `docs/
 - `docs/rules/guia-qualidade-roupas-2026-v2.md` — o guia de qualidade (critérios, faixas de GSM, hierarquia, anti-amassado).
 - `docs/guides/relatorio_final_marcas_guia_qualidade_2026.md` — o relatório de marcas auditadas (Asket, Norse, SANVT, Merz, Hollister etc.), com dados verificados contra fonte oficial.
 - `docs/audit/revisao_relatorio_marcas_2026-06-06.md` — a auditoria que validou o relatório (contexto sobre o que é verificado vs. pendente).
+- `docs/guides/cruzamentos/` — cruzamentos marca×mercado (8 mercados) + o handoff `knowledge-base-candidatos-verificados.md`. Fonte das marcas do lote 2026-06-07 (Buck Mason, Maison Cornichon, ISTO.), com o método de verificação por marca (web_fetch oficial vs. busca) e a distinção fato/julgamento. Índice das marcas pesquisadas: `docs/guides/marcas-para-cruzamento-8-mercados.md`.
 
 ---
 

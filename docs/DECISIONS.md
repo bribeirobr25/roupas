@@ -117,6 +117,20 @@ Sem outras dependências pesadas. Testes com `vitest` (rápido, TS nativo). Fixt
   - **falsa composição vinda de prosa** ("1% of the global cotton" da SANVT) → guarda de stopwords entre `%` e a fibra.
   - Autorrevisão endureceu efeitos colaterais: JSON-LD escopo `Product`, spacing sem `<span>` (não quebrar números), não remover `product-item`/`product-list` (PDP Magento), hood cue vence pullover. **Regressão validada ao vivo** nas marcas-âncora (Asket/SANVT/Norse/Merz) — sem drift. `extractText` ~89ms em página de 727 KB. Suíte: **55 testes**.
 
+- **2026-06-07 — Pesquisa de marcas por mercado (8 mercados) + lote de KB destilado (Fase 1–2).** Trabalho de curadoria feito no chat (não-código), gravado em `docs/guides/`:
+  - **8 cruzamentos mercado×guia** em `guides/cruzamentos/cruzamento-*.md` (EUA, Brasil, UK, Alemanha, França, Espanha, Itália, Portugal) + índice `guides/marcas-para-cruzamento-8-mercados.md`. Cada cruzamento separa fato (fibra/GSM/origem) de julgamento, e lista pendências explicitamente (nada assumido).
+  - **Lição transversal:** "não amassa" ≠ "alta qualidade natural" — sintético puro (Sepiia/Xacus Active) e non-iron químico (Olymp/CT) vs. natural preferido pelo guia (TENCEL/modal, malha pesada). Confirmou a regra de olhar vários produtos por marca (Massimo Dutti varia 100% algodão → 70% poliéster).
+  - **Lote de KB (handoff p/ Claude Code):** `guides/cruzamentos/knowledge-base-candidatos-verificados.md` — 3 marcas novas (Buck Mason 140/200/310/145; Maison Cornichon 195/290; ISTO. 160 Supima), todas via `web_fetch` de fonte oficial, + upgrade de `origin` da SANVT (Portugal / fio Itália). As 7 existentes reconferidas; ressalva registrada: **GSM 244 da Merz é oz de revendedor, não cravado pela oficial** (7.2 vs 8.6 oz divergem).
+  - **Granularidade decidida:** por marca (o schema `AuditedBrand.products[]` já é por-produto, então múltiplos GSMs cabem sem mudar schema). **Não injeta em findings** — KB só alimenta o selo `brandMatch` (mantido).
+  - **Próximo passo (Fase 3, no Claude Code):** integrar o lote em `lib/knowledge/brands.ts` + sync de `docs/KNOWLEDGE-BASE.md §7` (já atualizado neste commit), rodar test/lint/build, adicionar asserts de `matchBrandByHost` p/ buckmason.com/maisoncornichon.com/isto.pt. Aprofundamento futuro (lotes napolitano/pendentes ES-FR-US) volta ao chat antes de virar código.
+
+- **2026-06-09 — Fase 3 executada: lote de marcas integrado ao código.** Fecha o "próximo passo" da entrada anterior.
+  - `lib/knowledge/brands.ts`: +3 marcas / 7 produtos (Buck Mason, Maison Cornichon, ISTO.); `origin` da SANVT preenchido (Perfect→"Portugal", Heavyweight→"Portugal (yarn spun in Italy)"); header cita `guides/cruzamentos/`. As outras 6 intactas (Merz segue 244 como referência aproximada, ressalva no §7).
+  - **Enum:** `Weave` sem `ribbed` → Côte 195g usa `jersey` + `construction:["ribbed 1x1","yarn 1/40"]`. Schema inalterado.
+  - **Honestidade inalterada:** KB só alimenta `brandMatch`; nada em `findings`. Nenhum GSM inventado; `null` (Vans/UNIQLO/Norse) preservados.
+  - **Gate:** +1 `it` em `matchBrandByHost`; **56 testes**, tsc/lint/build verdes. KB: 10 marcas, 20 produtos; `brands.ts` ↔ §7 em sync.
+  - **Docs sincronizados neste passo:** `CLAUDE.md §4` (Fontes de verdade agora cita `guides/cruzamentos/`); header de `brands.ts` distingue originais (audit 06-06) vs. lote (web_fetch oficial).
+
 ## 6. Status do Definition of Done (CLAUDE.md §8)
 
 - [x] Stack escolhida e justificada (§5.1).
