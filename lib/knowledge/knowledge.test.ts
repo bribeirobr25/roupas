@@ -33,6 +33,10 @@ describe("FIBER_QUALITY", () => {
   it("egyptian is premium tier (lote 3)", () => {
     expect(FIBER_QUALITY.egyptian).toBe(4);
   });
+
+  it("modal is premium tier (lote 5)", () => {
+    expect(FIBER_QUALITY.modal).toBe(4);
+  });
 });
 
 describe("matchBrandByHost", () => {
@@ -55,6 +59,10 @@ describe("matchBrandByHost", () => {
 
   it("matches lote 3 brand", () => {
     expect(matchBrandByHost("finamore.it")?.name).toBe("Finamore");
+  });
+
+  it("matches lote 5 brand", () => {
+    expect(matchBrandByHost("insiderstore.com.br")?.name).toBe("Insider");
   });
 
   it("returns null for unknown hosts", () => {

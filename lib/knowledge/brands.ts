@@ -521,6 +521,57 @@ export const AUDITED_BRANDS: AuditedBrand[] = [
       },
     ],
   },
+  // --- Batch 2026-06-07 lote 5 (natural-fibre tech; schema: +modal) ---
+  // Sepiia (100% polyester) deliberately excluded — the parser penalises
+  // polyester on its own; the KB curates natural quality only (decision Opção 2).
+  {
+    name: "Insider",
+    domains: ["insiderstore.com.br"],
+    products: [
+      {
+        product: "Tech T-Shirt",
+        category: "tshirt",
+        fiber: "92% TENCEL modal + 8% elastane",
+        fiberType: "modal",
+        gsm: null, // brand does not publish a GSM number
+        weave: "jersey",
+        construction: ["anti-odor", "8% elastane", "Lenzing FSC", "Oeko-Tex"],
+        origin: "Brazil",
+        // wrinkle "low" is brand-stated ("desamassa no corpo") — from natural
+        // fibre + elastane, NOT a chemical/synthetic treatment.
+        wrinkle: "low",
+        tier: "A+",
+        confidence: "verified",
+      },
+      {
+        product: "Tech T-Shirt Heavy",
+        category: "tshirt",
+        // "+20% gramatura vs. original" is relative, not a number -> gsm null.
+        fiber: "modal (heavier knit, +20% weight vs. original)",
+        fiberType: "modal",
+        gsm: null,
+        weave: "jersey",
+        construction: ["anti-odor", "heavier knit"],
+        origin: "Brazil",
+        wrinkle: "low",
+        tier: "A+",
+        confidence: "verified",
+      },
+      {
+        product: "NEXTECH Premium",
+        category: "tshirt",
+        fiber: "TENCEL Lyocell",
+        fiberType: "TENCEL",
+        gsm: null,
+        weave: "jersey",
+        construction: ["anti-odor", "nanopores"],
+        origin: "Brazil",
+        wrinkle: "low",
+        tier: "S",
+        confidence: "verified",
+      },
+    ],
+  },
 ];
 
 // Match a URL host against the audited brands (suffix match so subdomains and

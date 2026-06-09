@@ -14,6 +14,7 @@ export type FiberType =
   | "TENCEL"
   | "merino"
   | "egyptian"
+  | "modal"
   | "long-staple"
   | "organic"
   | "generic";

@@ -119,6 +119,9 @@ Use para complementar o que o parser extrair, quando a URL for de uma destas mar
 | **American Giant — Slub Tee** | tshirt | 100% Supima (US-grown) slub; 207 GSM (6.1 oz); USA | low (malha) | A+ |
 | **American Giant — Airy Supima Tee** | tshirt | 100% Supima (US-grown); 102 GSM (3 oz); USA | low (malha) | A- |
 | **Finamore — Napoli 170 a due** | shirt | 100% Egyptian cotton Giza 45; sem GSM (norma camisa); poplin two-ply 170/2; madrepérola; feita à mão em Nápoles | high | S |
+| **Insider — Tech T-Shirt** | tshirt | 92% TENCEL modal + 8% elastano; sem GSM (não publica); anti-odor; Lenzing FSC/Oeko-Tex; Brasil | low (marca: "desamassa no corpo") | A+ |
+| **Insider — Tech T-Shirt Heavy** | tshirt | modal encorpada (+20% gramatura, relativo — sem número); Brasil | low (malha) | A+ |
+| **Insider — NEXTECH Premium** | tshirt | TENCEL Lyocell; sem GSM; anti-odor; nanoporos; Brasil | low (malha) | S |
 
 > \* **Ressalva Merz 215 (GSM):** a página oficial descreve a 215 como "midweight, 2-thread, loopwheeled" mas **não crava GSM em gramas**. O valor ~244 vem de conversão de "7.2 oz" de revendedor, e as fontes divergem (7.2 vs 8.6 oz). Manter como **referência aproximada**, não como GSM cravado pela marca. Composição/origem (100% organic, Made in Germany) são fato.
 

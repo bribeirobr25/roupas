@@ -61,17 +61,18 @@ export function classifyGsm(
 }
 
 // --- Fiber quality ranking (KB §2, scoring §5) -------------------------------
-// Premium tier: Supima / Pima / merino / TENCEL / egyptian (and extra-long-staple,
-// handled in the parser). Mid tier: organic, plain long-staple. Base: generic
-// cotton. NB: `egyptian` is currently only produced by the KB (audited-brand
-// reference); the parser does not yet classify a page as egyptian — see
-// CLAUDE.md §7 roadmap.
+// Premium tier: Supima / Pima / merino / TENCEL / egyptian / modal (and
+// extra-long-staple, handled in the parser). Mid tier: organic, plain
+// long-staple. Base: generic cotton. NB: `egyptian` and `modal` are currently
+// only produced by the KB (audited-brand reference); the parser does not yet
+// classify a page as egyptian/modal — see CLAUDE.md §7 roadmap.
 export const FIBER_QUALITY: Record<FiberType, GsmQuality> = {
   Supima: 4,
   Pima: 4,
   merino: 4,
   TENCEL: 4,
   egyptian: 4,
+  modal: 4,
   "long-staple": 2,
   organic: 2,
   generic: 1,
@@ -83,6 +84,7 @@ export const PREMIUM_FIBERS: FiberType[] = [
   "merino",
   "TENCEL",
   "egyptian",
+  "modal",
 ];
 
 // --- Weave ranking by category ----------------------------------------------
