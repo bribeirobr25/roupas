@@ -38,6 +38,12 @@ describe("matchBrandByHost", () => {
     expect(matchBrandByHost("hollisterco.com")?.name).toBe("Hollister");
   });
 
+  it("matches the 2026-06-07 batch brands", () => {
+    expect(matchBrandByHost("buckmason.com")?.name).toBe("Buck Mason");
+    expect(matchBrandByHost("maisoncornichon.com")?.name).toBe("Maison Cornichon");
+    expect(matchBrandByHost("isto.pt")?.name).toBe("ISTO.");
+  });
+
   it("returns null for unknown hosts", () => {
     expect(matchBrandByHost("www.zara.com")).toBeNull();
     expect(matchBrandByHost("example.com")).toBeNull();

@@ -1,5 +1,13 @@
-// Audited brands — VERIFIED data from docs/KNOWLEDGE-BASE.md §7, which distills
-// the report (docs/guides/...) confirmed by the audit (docs/audit/...).
+// Audited brands — VERIFIED reference data from docs/KNOWLEDGE-BASE.md §7.
+// Provenance differs by row:
+//   - Original brands (Asket, Norse, Merz, SANVT, Hollister, Vans, UNIQLO):
+//     from the report (docs/guides/relatorio_*), confirmed by the audit
+//     (docs/audit/revisao_relatorio_marcas_2026-06-06.md).
+//   - 2026-06-07 batch (Buck Mason, Maison Cornichon, ISTO.): from the
+//     per-market cruzamentos (docs/guides/cruzamentos/), verified via official
+//     web_fetch. See knowledge-base-candidatos-verificados.md for per-brand
+//     method + the fact/judgement distinction (gsm/fiber/origin = fact;
+//     tier = editorial judgement; wrinkle = guide inference unless brand-stated).
 //
 // Use: when an analyzed URL's host matches an audited brand, the API flags it
 // with a "this is an audited brand; verified reference data exists" badge
@@ -167,7 +175,7 @@ export const AUDITED_BRANDS: AuditedBrand[] = [
         gsm: 185,
         weave: "jersey",
         construction: [],
-        origin: null,
+        origin: "Portugal",
         wrinkle: "low",
         tier: "A+",
         confidence: "verified",
@@ -180,7 +188,7 @@ export const AUDITED_BRANDS: AuditedBrand[] = [
         gsm: 235,
         weave: "jersey",
         construction: [],
-        origin: null,
+        origin: "Portugal (yarn spun in Italy)",
         wrinkle: "low",
         tier: "A+",
         confidence: "verified",
@@ -241,6 +249,122 @@ export const AUDITED_BRANDS: AuditedBrand[] = [
         wrinkle: "low",
         tier: "A",
         confidence: "partial",
+      },
+    ],
+  },
+  // --- Batch 2026-06-07 (from docs/guides/cruzamentos/, web_fetch official) ---
+  {
+    name: "Buck Mason",
+    domains: ["buckmason.com"],
+    products: [
+      {
+        product: "Pima Classic Tee",
+        category: "tshirt",
+        // Brand names it "Pima" but the collection tag says "Supima Cotton" —
+        // we resolve to Supima (a judgement, not a literal product-name quote).
+        fiber: "100% Supima cotton (long staple)",
+        fiberType: "Supima",
+        gsm: 140,
+        weave: "jersey",
+        construction: ["pre-washed"],
+        origin: "USA (Mohnton, PA)",
+        wrinkle: "low",
+        tier: "A",
+        confidence: "verified",
+      },
+      {
+        product: "Toughknit Tee",
+        category: "tshirt",
+        fiber: "100% Supima cotton",
+        fiberType: "Supima",
+        gsm: 200,
+        weave: "jersey",
+        construction: ["pre-washed"],
+        origin: "USA (Mohnton, PA)",
+        wrinkle: "low",
+        tier: "A+",
+        confidence: "verified",
+      },
+      {
+        product: "Field-Spec Heavy Tee",
+        category: "tshirt",
+        fiber: "100% cotton",
+        fiberType: "generic",
+        gsm: 310,
+        weave: "jersey",
+        construction: ["pre-washed"],
+        origin: "Import (non-US)",
+        wrinkle: "low",
+        tier: "A+",
+        confidence: "verified",
+      },
+      {
+        product: "Slub Classic Tee",
+        category: "tshirt",
+        // "cotton grown in USA" (raw material) — NOT "made in USA" (the garment).
+        fiber: "100% cotton (slub)",
+        fiberType: "generic",
+        gsm: 145,
+        weave: "jersey",
+        construction: ["pre-washed"],
+        origin: "USA (cotton grown in USA)",
+        wrinkle: "low",
+        tier: "A",
+        confidence: "verified",
+      },
+    ],
+  },
+  {
+    name: "Maison Cornichon",
+    domains: ["maisoncornichon.com"],
+    products: [
+      {
+        product: "T-shirt Côte 195g",
+        category: "tshirt",
+        fiber: "100% organic cotton (GOTS)",
+        fiberType: "organic",
+        gsm: 195,
+        // "côte 1x1" (ribbed) — Weave enum has no "ribbed", so jersey + note.
+        weave: "jersey",
+        construction: ["ribbed 1x1", "yarn 1/40"],
+        origin: "France (Dordogne)",
+        wrinkle: "low",
+        tier: "A+",
+        confidence: "verified",
+      },
+      {
+        product: "T-shirt Jersey 290g",
+        category: "tshirt",
+        fiber: "100% organic cotton (GOTS)",
+        fiberType: "organic",
+        gsm: 290,
+        weave: "jersey",
+        construction: ["yarn 1/20", "heavyweight"],
+        origin: "France (Dordogne)",
+        // wrinkle "low" is brand-stated here ("tombé net et structuré,
+        // se froisse peu"), not just inferred from knit.
+        wrinkle: "low",
+        tier: "S",
+        confidence: "verified",
+      },
+    ],
+  },
+  {
+    name: "ISTO.",
+    domains: ["isto.pt"],
+    products: [
+      {
+        product: "Supima T-Shirt",
+        category: "tshirt",
+        fiber: "100% Supima cotton (extra long staple)",
+        fiberType: "Supima",
+        gsm: 160,
+        weave: "jersey",
+        construction: ["pre-shrunk"],
+        origin: "Portugal",
+        wrinkle: "low",
+        tier: "A+",
+        confidence: "verified",
       },
     ],
   },
