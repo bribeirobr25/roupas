@@ -65,6 +65,14 @@ describe("matchBrandByHost", () => {
     expect(matchBrandByHost("insiderstore.com.br")?.name).toBe("Insider");
   });
 
+  it("matches approved partials", () => {
+    expect(matchBrandByHost("hastparis.com")?.name).toBe("Hast");
+    expect(matchBrandByHost("kiton.com")?.name).toBe("Kiton");
+    expect(matchBrandByHost("luigiborrelli.com")?.name).toBe("Luigi Borrelli");
+    expect(matchBrandByHost("pompeiibrand.com")?.name).toBe("Pompeii");
+    expect(matchBrandByHost("dudalina.com.br")?.name).toBe("Dudalina");
+  });
+
   it("returns null for unknown hosts", () => {
     expect(matchBrandByHost("www.zara.com")).toBeNull();
     expect(matchBrandByHost("example.com")).toBeNull();

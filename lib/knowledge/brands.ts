@@ -572,6 +572,125 @@ export const AUDITED_BRANDS: AuditedBrand[] = [
       },
     ],
   },
+  // --- Batch 2026-06-07 partials (approved per-brand; real construction/origin
+  // signal but no published GSM/yarn-count -> confidence "partial", like
+  // UNIQLO/Vans). No schema change. ---
+  {
+    name: "Hast",
+    domains: ["hastparis.com"],
+    products: [
+      {
+        product: "Chemise popeline (col français)",
+        category: "shirt",
+        fiber: "100% cotton double retors (two-ply)",
+        fiberType: "generic",
+        gsm: null, // dress shirt — no published GSM
+        weave: "poplin",
+        construction: ["two-ply", "yarn 100/2", "mother-of-pearl"],
+        origin: "Europe",
+        wrinkle: "high",
+        tier: "A",
+        confidence: "partial",
+      },
+    ],
+  },
+  {
+    name: "Kiton",
+    domains: ["kiton.com"],
+    products: [
+      {
+        product: "Camicia Cotone (white)",
+        category: "shirt",
+        // Generic fibre: the official sheet says "100% cotton"/"fine natural
+        // cotton" without Giza/yarn-count. Signal is in the manufacture, not the
+        // fibre — hence generic + partial despite the prestige.
+        fiber: "100% cotton (fine natural cotton)",
+        fiberType: "generic",
+        gsm: null,
+        weave: "poplin",
+        construction: ["22 steps handmade Naples", "Pinctada Maxima mother-of-pearl"],
+        origin: "Italy (Naples)",
+        wrinkle: "high",
+        tier: "A+",
+        confidence: "partial",
+      },
+    ],
+  },
+  {
+    name: "Luigi Borrelli",
+    domains: ["luigiborrelli.com"],
+    products: [
+      {
+        product: "Cotton Shirt (white)",
+        category: "shirt",
+        fiber: "100% cotton",
+        fiberType: "generic",
+        gsm: null,
+        weave: "poplin",
+        construction: ["8-9 steps handmade Naples", "mother-of-pearl", "taffeta gusset"],
+        origin: "Italy (Naples)",
+        wrinkle: "high",
+        tier: "A+",
+        confidence: "partial",
+      },
+      {
+        product: "Twill Shirt",
+        category: "shirt",
+        fiber: "100% cotton",
+        fiberType: "generic",
+        gsm: null,
+        weave: "twill",
+        construction: ["handmade Naples", "mother-of-pearl"],
+        origin: "Italy (Naples)",
+        wrinkle: "high",
+        tier: "A",
+        confidence: "partial",
+      },
+    ],
+  },
+  {
+    name: "Pompeii",
+    domains: ["pompeiibrand.com"],
+    products: [
+      {
+        product: "Camisa (linha geral)",
+        category: "shirt",
+        fiber: "natural fibers (cotton/linen)",
+        fiberType: "generic",
+        gsm: null,
+        weave: "poplin",
+        construction: [],
+        origin: "Portugal",
+        wrinkle: "high",
+        tier: "B+",
+        confidence: "partial",
+      },
+    ],
+  },
+  {
+    name: "Dudalina",
+    domains: ["dudalina.com.br"],
+    products: [
+      {
+        product: "Camisa Comfort Jacquard Fio Egípcio",
+        category: "shirt",
+        // "Egyptian" is marketing here — no yarn count / certification per SKU,
+        // so fiberType stays long-staple (NOT egyptian, which is reserved for
+        // verified Giza like Finamore). Honest record -> partial. Weave enum has
+        // no "jacquard" -> poplin + construction. The Slim Wrinkle Free line
+        // (chemical non-iron) is deliberately excluded.
+        fiber: "100% Egyptian cotton",
+        fiberType: "long-staple",
+        gsm: null,
+        weave: "poplin",
+        construction: ["jacquard", "Italian collar", "comfort fit"],
+        origin: "Brazil",
+        wrinkle: "high",
+        tier: "A-",
+        confidence: "partial",
+      },
+    ],
+  },
 ];
 
 // Match a URL host against the audited brands (suffix match so subdomains and

@@ -122,9 +122,15 @@ Use para complementar o que o parser extrair, quando a URL for de uma destas mar
 | **Insider — Tech T-Shirt** | tshirt | 92% TENCEL modal + 8% elastano; sem GSM (não publica); anti-odor; Lenzing FSC/Oeko-Tex; Brasil | low (marca: "desamassa no corpo") | A+ |
 | **Insider — Tech T-Shirt Heavy** | tshirt | modal encorpada (+20% gramatura, relativo — sem número); Brasil | low (malha) | A+ |
 | **Insider — NEXTECH Premium** | tshirt | TENCEL Lyocell; sem GSM; anti-odor; nanoporos; Brasil | low (malha) | S |
+| **Hast — Chemise popeline** | shirt | 100% cotton double retors (two-ply); sem GSM; poplin; fio 100/2; madrepérola; Europa | high | A (parcial) |
+| **Kiton — Camicia Cotone** | shirt | 100% cotton (genérico, fibra não cravada); sem GSM; poplin; 22 passos à mão; madrepérola Pinctada Maxima; Nápoles | high | A+ (parcial) |
+| **Luigi Borrelli — Cotton Shirt** | shirt | 100% cotton (genérico); sem GSM; poplin; 8–9 passos à mão; madrepérola; gusset de tafetá; Nápoles | high | A+ (parcial) |
+| **Luigi Borrelli — Twill Shirt** | shirt | 100% cotton (genérico); sem GSM; twill; feita à mão; madrepérola; Nápoles | high | A (parcial) |
+| **Pompeii — Camisa** | shirt | fibras naturais (cotton/linen); sem GSM; poplin; feita em Portugal | high | B+ (parcial) |
+| **Dudalina — Comfort Jacquard Fio Egípcio** | shirt | algodão egípcio (marketing — sem fio/cert. por SKU → `long-staple`, não `egyptian`); sem GSM; jacquard (poplin + construction); colarinho italiano; Brasil | high | A- (parcial) |
 
 > \* **Ressalva Merz 215 (GSM):** a página oficial descreve a 215 como "midweight, 2-thread, loopwheeled" mas **não crava GSM em gramas**. O valor ~244 vem de conversão de "7.2 oz" de revendedor, e as fontes divergem (7.2 vs 8.6 oz). Manter como **referência aproximada**, não como GSM cravado pela marca. Composição/origem (100% organic, Made in Germany) são fato.
 
 > Marcas com dados incompletos publicamente (Quiksilver, Zara, H&M, parte de Vans/UNIQLO/NN07): tratar como **partial** — confirmar sempre pela página/etiqueta, nunca assumir.
 
-> **Pendentes (pesquisadas, ainda sem dado verificado — NÃO adicionar sem aprovação):** Scalpers/Silbon/Pompeii (ES), Community Clothing (UK), Hast (FR), camisa Dudalina/Aramis (BR, contagem de fios), luxo napolitano (Kiton/Borrelli/Zegna). Detalhe em cada `guides/cruzamentos/cruzamento-*.md`. *(Asphalte e American Giant saíram desta lista — integradas como `verified` no lote 2, 2026-06-07.)*
+> **Não integrados (decisão do dono ou marginais — NÃO adicionar sem aprovação):** Scalpers (ES, marginal), Silbon (ES), Community Clothing (UK), camisa Aramis (BR), Zegna (luxo napolitano). Detalhe em cada `guides/cruzamentos/cruzamento-*.md`. *(Integrados em 2026-06-07: Asphalte e American Giant como `verified` (lote 2); Hast, Pompeii, Kiton, Luigi Borrelli e Dudalina Comfort Jacquard como `partial`. A Dudalina Slim Wrinkle Free ficou de fora — non-iron químico, sinal de cautela.)*
