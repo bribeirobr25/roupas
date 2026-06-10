@@ -1,52 +1,61 @@
 // English dictionary — the typed source of truth. Other locales must match this
-// shape (enforced by the Dict type). Copy base from I18N.md §3, extended with
-// labels the UI needs (category names, finding labels, section headings).
+// shape (enforced by the Dict type).
+//
+// Voice (EN): Don Draper. We don't sell a feature, we sell the desire to know
+// what you're really wearing — and we tell the truth, because the truth is the
+// better pitch. Aspirational, confident, honest. The other locales keep the
+// plain, clear voice; only English carries this tone.
 
 export const en = {
   app: {
-    headlineLead: "is this fabric",
-    headlineMain: "actually good?",
+    headlineLead: "The label lies.",
+    headlineMain: "The cloth doesn't.",
     tagline:
-      "Paste a clothing product link. We read the fabric and tell you if it's actually good — and whether it wrinkles.",
+      "Paste a link to whatever you're tempted by. We read the cloth — fiber, weight, the way it'll wear — and hand you the truth the price tag won't. The story is theirs. The thread is yours.",
   },
   input: {
-    placeholder: "Paste the product URL (t-shirt, shirt, sweatshirt or hoodie)",
-    button: "Analyze",
-    analyzing: "Analyzing…",
-    errorInvalid: "That doesn't look like a valid link. Check and try again.",
+    placeholder: "Paste the link — a tee, a shirt, a sweat, a hoodie",
+    button: "Read it",
+    analyzing: "Reading…",
+    errorInvalid: "That's not a link we can follow. Check it and try again.",
+    tryExamples: "No link handy? Read one of these:",
   },
   analyzing: {
-    steps: ["Reading the label…", "Comparing with the guide…", "Assessing the fabric…"],
-    aria: "Analyzing the product page",
+    steps: [
+      "Reading the thread…",
+      "Weighing the truth…",
+      "Telling craft from costume…",
+    ],
+    aria: "Reading the cloth",
   },
   result: {
-    detectedCategory: "Detected category",
-    categoryLow: "We're not fully sure of the category — read on with that in mind.",
+    detectedCategory: "What it is",
+    categoryLow: "We're reading between the lines on the cut — keep that in mind.",
     quality: "Quality",
-    wrinkleQuestion: "Does it wrinkle?",
-    found: "What we found",
-    missing: "Couldn't confirm (check the label)",
-    confidenceLabel: "Confidence",
-    brandMatch: "Audited brand — we have verified reference data.",
-    again: "Analyze another item",
-    verifiedTag: "read from the page",
-    inferredTag: "to check on the label",
+    wrinkleQuestion: "Will it wrinkle?",
+    found: "What the cloth admits",
+    missing: "What it won't say — check the tag",
+    confidenceLabel: "How sure we are",
+    brandMatch: "A house we know — we've read this one against the source ourselves.",
+    again: "Read another",
+    verifiedTag: "straight from the page",
+    inferredTag: "to confirm on the tag",
     band: {
-      high: "High quality",
-      medium: "Decent quality",
-      low: "Low quality",
-      indeterminate: "Not enough data to judge",
+      high: "The real thing",
+      medium: "Honestly good",
+      low: "Mostly marketing",
+      indeterminate: "The tag stays quiet",
     },
     wrinkle: {
-      low: "Barely wrinkles",
-      medium: "Wrinkles a bit",
-      high: "Wrinkles a lot",
-      unknown: "Can't tell",
+      low: "Holds its poise",
+      medium: "Creases a little",
+      high: "Creases freely",
+      unknown: "Won't say",
     },
     confidence: {
-      verified: "Verified",
-      partial: "Partial",
-      unreadable: "Couldn't read the page",
+      verified: "We're certain",
+      partial: "Half the story",
+      unreadable: "The door stayed shut",
     },
   },
   category: {
@@ -54,7 +63,7 @@ export const en = {
     shirt: "Shirt",
     pullover: "Sweatshirt",
     hoodie: "Hoodie",
-    unknown: "Unknown garment",
+    unknown: "Hard to place",
   },
   finding: {
     fiber: "Composition",
@@ -69,14 +78,14 @@ export const en = {
   },
   value: {
     yes: "Yes",
-    nonIron: "Non-iron treated",
+    nonIron: "Treated to resist creasing",
   },
   error: {
     unreadable:
-      "We couldn't read this page automatically. Some shops block it. Try another link, or check the label using our quality guide.",
+      "Some shops keep their secrets behind glass. This one won't let us read the tag. Try another link — or do it the old way, and read the label yourself.",
   },
   ads: {
-    placeholder: "Ad space",
+    placeholder: "This space is for sale",
   },
   language: {
     label: "Language",

@@ -13,6 +13,7 @@ export const de: Dict = {
     button: "Analysieren",
     analyzing: "Analysiere…",
     errorInvalid: "Das sieht nicht nach einem gültigen Link aus. Bitte überprüfen.",
+    tryExamples: "Kein Link zur Hand? Analysiere einen davon:",
   },
   analyzing: {
     steps: ["Etikett wird gelesen…", "Abgleich mit dem Leitfaden…", "Stoff wird bewertet…"],

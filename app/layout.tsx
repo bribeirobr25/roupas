@@ -1,15 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Bodoni_Moda, Inter } from "next/font/google";
 import "./globals.css";
 import { I18nProvider } from "@/lib/i18n/provider";
 import { APP_NAME } from "@/lib/brand";
 
-// Editorial display serif + legible body sans (DECISIONS §5.2). Self-hosted by
+// Display: Bodoni Moda — the high-contrast serif of the fashion press and the
+// Mad Men era. Body: Inter — clean, modern, gets out of the way. Self-hosted by
 // next/font at build time (no external runtime request).
-const display = Fraunces({
+const display = Bodoni_Moda({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400", "600", "900"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -21,25 +22,25 @@ const sans = Inter({
 });
 
 const DESCRIPTION =
-  "Paste a clothing product link. We read the fabric and tell you if it's actually good — and whether it wrinkles.";
+  "Paste a link to whatever you're tempted by. We read the cloth — fiber, weight, the way it'll wear — and hand you the truth the price tag won't.";
 
 export const metadata: Metadata = {
-  title: `${APP_NAME} — is this fabric actually good?`,
+  title: `${APP_NAME} — read the cloth, not the label`,
   description: DESCRIPTION,
   openGraph: {
-    title: `${APP_NAME} — is this fabric actually good?`,
+    title: `${APP_NAME} — read the cloth, not the label`,
     description: DESCRIPTION,
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: `${APP_NAME} — is this fabric actually good?`,
+    title: `${APP_NAME} — read the cloth, not the label`,
     description: DESCRIPTION,
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f6f4ef",
+  themeColor: "#f5f5f7",
 };
 
 export default function RootLayout({

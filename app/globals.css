@@ -1,20 +1,25 @@
 @import "tailwindcss";
 
-/* Editorial, minimalist fashion identity (CLAUDE §6): warm paper, near-black
-   ink, a single terracotta accent. No purple-on-white gradient. Typography is
-   the protagonist. */
+/* ── Identity: "Editorial Noir" ───────────────────────────────────────────────
+   Gallery white, near-black ink, an electric Klein-blue accent (anything but
+   apathetic), Bodoni Moda as the display face — the type of the fashion press
+   and the Mad Men era. Quality is a feeling; the page should sell it.
+   Semantic verdict colours stay legible: emerald = good, red = caution. */
 
 :root {
-  --paper: #f6f4ef;
-  --paper-raised: #fffdf8;
-  --ink: #1c1a17;
-  --muted: #6f6a61;
-  --line: #e4ded2;
-  --accent: #b3472d;
-  --good: #2f7d52;
-  --warn: #b07d20;
-  --bad: #b3472d;
-  --indeterminate: #6f6a61;
+  --paper: #f5f5f7; /* gallery gray (Apple-clean) */
+  --paper-raised: #ffffff; /* cards */
+  --ink: #0a0a0b; /* near-black */
+  --muted: #6e6e73;
+  --line: #e4e4e8;
+  --accent: #1f3bff; /* electric blue — brand + interactive */
+  --accent-deep: #0a22d6;
+  --noir: #0a0a0b; /* dramatic dark moments (the verdict) */
+
+  --good: #0c7c59; /* high quality / barely wrinkles */
+  --warn: #9a6b00; /* decent / creases a little */
+  --bad: #d92d20; /* low / creases freely */
+  --indeterminate: #6e6e73;
 }
 
 @theme inline {
@@ -24,6 +29,8 @@
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-noir: var(--noir);
   --color-good: var(--good);
   --color-warn: var(--warn);
   --color-bad: var(--bad);
@@ -36,12 +43,19 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-feature-settings: "lnum" 1;
+  letter-spacing: -0.01em;
 }
 
 /* Visible keyboard focus everywhere (accessibility, SPEC §5). */
 :focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -59,22 +73,47 @@ body {
   0%,
   100% {
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(6px);
   }
-  10%,
-  90% {
+  12%,
+  88% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Subtle pulse for the analyzing indicator. */
+/* Pulse for the analyzing indicator. */
 @keyframes roupas-pulse {
   0%,
   100% {
-    opacity: 0.35;
+    opacity: 0.25;
+    transform: scale(0.85);
   }
   50% {
     opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* The verdict reveal — a slow, confident rise. */
+@keyframes roupas-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.roupas-rise {
+  animation: roupas-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Score counter sweep on the meter. */
+@keyframes roupas-sweep {
+  from {
+    transform: scaleX(0);
   }
 }

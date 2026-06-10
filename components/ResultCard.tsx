@@ -4,7 +4,7 @@ import { useI18n } from "@/lib/i18n/provider";
 import type { Dict } from "@/lib/i18n/dictionaries";
 import type { AnalyzeOk, ScoreBand, Wrinkle } from "@/lib/types";
 
-// Band / wrinkle color tokens — explicit class strings so Tailwind keeps them.
+// Band / wrinkle colour tokens — explicit class strings so Tailwind keeps them.
 const BAND_TEXT: Record<ScoreBand, string> = {
   high: "text-good",
   medium: "text-warn",
@@ -70,6 +70,14 @@ function missingLabels(data: AnalyzeOk, dict: Dict): string[] {
   return data.missing.map((k) => map[k]).filter(Boolean);
 }
 
+function Kicker({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-[0.7rem] font-medium uppercase tracking-[0.22em] text-muted">
+      {children}
+    </p>
+  );
+}
+
 export function ResultCard({ data }: { data: AnalyzeOk }) {
   const { dict } = useI18n();
   const found = foundItems(data, dict);
@@ -78,106 +86,112 @@ export function ResultCard({ data }: { data: AnalyzeOk }) {
   const isIndeterminate = band === "indeterminate";
 
   return (
-    <article className="w-full rounded-2xl border border-line bg-paper-raised p-6 sm:p-8 shadow-[0_1px_0_rgba(0,0,0,0.02)]">
-      {/* 1. Detected category */}
-      <div className="mb-6">
-        <p className="text-xs uppercase tracking-[0.2em] text-muted">
-          {dict.result.detectedCategory}
-        </p>
-        <p className="font-display text-2xl text-ink mt-1">
-          {dict.category[data.category]}
-        </p>
-        {data.categoryConfidence === "low" && (
-          <p className="text-sm text-muted mt-1">{dict.result.categoryLow}</p>
-        )}
-      </div>
+    <article className="roupas-rise w-full overflow-hidden rounded-3xl border border-line bg-paper-raised shadow-[0_18px_50px_-28px_rgba(10,10,12,0.28)]">
+      <div className="p-7 sm:p-10">
+        {/* 1. Category */}
+        <div className="mb-8">
+          <Kicker>{dict.result.detectedCategory}</Kicker>
+          <p className="mt-1.5 font-display text-2xl text-ink">
+            {dict.category[data.category]}
+          </p>
+          {data.categoryConfidence === "low" && (
+            <p className="mt-1 text-sm text-muted">{dict.result.categoryLow}</p>
+          )}
+        </div>
 
-      {/* 2. Main verdict */}
-      <div className="mb-8">
-        <p
-          className={`font-display text-4xl sm:text-5xl font-semibold leading-tight ${BAND_TEXT[band]}`}
-        >
-          {dict.result.band[band]}
-        </p>
-        {!isIndeterminate && (
-          <div className="mt-4 max-w-sm">
-            <div className="h-2 w-full rounded-full bg-line overflow-hidden">
-              <div
-                className={`h-full rounded-full ${BAND_BAR[band]}`}
-                style={{ width: `${data.score.value}%` }}
-              />
-            </div>
-            <p className="mt-1 text-xs text-muted">{data.score.value}/100</p>
-          </div>
-        )}
-      </div>
-
-      {/* 3. Does it wrinkle? */}
-      <div className="mb-8 border-t border-line pt-6">
-        <p className="text-xs uppercase tracking-[0.2em] text-muted">
-          {dict.result.wrinkleQuestion}
-        </p>
-        <p className={`font-display text-2xl mt-1 ${WRINKLE_TEXT[data.wrinkle]}`}>
-          {dict.result.wrinkle[data.wrinkle]}
-        </p>
-      </div>
-
-      {/* 4. What we found (verified, read from the page) */}
-      {found.length > 0 && (
-        <div className="mb-8 border-t border-line pt-6">
-          <h2 className="text-sm font-medium text-ink">{dict.result.found}</h2>
-          <p className="mb-3 text-xs text-muted">{dict.result.verifiedTag}</p>
-          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-            {found.map((it) => (
-              <div key={it.label} className="flex items-baseline gap-2">
-                <span aria-hidden className="text-good mt-0.5">
-                  ✓
-                </span>
-                <dt className="text-muted text-sm">{it.label}:</dt>
-                <dd className="text-ink text-sm font-medium">{it.value}</dd>
+        {/* 2. The verdict — the hero */}
+        <div className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <p
+            className={`font-display text-5xl font-black leading-[0.95] tracking-[-0.02em] sm:text-6xl ${BAND_TEXT[band]}`}
+          >
+            {dict.result.band[band]}
+          </p>
+          {!isIndeterminate && (
+            <div className="shrink-0 sm:text-right">
+              <p className={`font-display text-5xl font-light ${BAND_TEXT[band]}`}>
+                {data.score.value}
+                <span className="text-2xl text-muted">/100</span>
+              </p>
+              <div className="mt-2 h-1.5 w-44 overflow-hidden rounded-full bg-line">
+                <div
+                  className={`h-full origin-left rounded-full ${BAND_BAR[band]}`}
+                  style={{
+                    width: `${data.score.value}%`,
+                    animation: "roupas-sweep 0.9s cubic-bezier(0.16,1,0.3,1) both",
+                  }}
+                />
               </div>
-            ))}
-          </dl>
+            </div>
+          )}
         </div>
-      )}
 
-      {/* 5. Couldn't confirm (to check on the label) */}
-      {missing.length > 0 && (
-        <div className="mb-8 border-t border-line pt-6">
-          <h2 className="text-sm font-medium text-ink mb-3">
-            {dict.result.missing}
-          </h2>
-          <ul className="flex flex-wrap gap-2">
-            {missing.map((label) => (
-              <li
-                key={label}
-                className="rounded-full border border-dashed border-line px-3 py-1 text-sm text-muted"
-              >
-                {label}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* 6. Audited brand */}
-      {data.brandMatch?.ref && (
-        <div className="mb-8 border-t border-line pt-6">
-          <p className="text-sm text-ink">
-            <span className="font-medium">{data.brandMatch.name}</span>{" "}
-            <span className="text-muted">— {dict.result.brandMatch}</span>
+        {/* 3. Will it wrinkle? */}
+        <div className="mb-9 border-t border-line pt-7">
+          <Kicker>{dict.result.wrinkleQuestion}</Kicker>
+          <p
+            className={`mt-1.5 font-display text-3xl italic ${WRINKLE_TEXT[data.wrinkle]}`}
+          >
+            {dict.result.wrinkle[data.wrinkle]}
           </p>
         </div>
-      )}
 
-      {/* 7. Confidence */}
-      <div className="border-t border-line pt-6">
-        <span className="text-xs uppercase tracking-[0.2em] text-muted">
-          {dict.result.confidenceLabel}:{" "}
-        </span>
-        <span className="text-sm font-medium text-ink">
-          {dict.result.confidence[data.confidence]}
-        </span>
+        {/* 4. What the cloth admits (verified) */}
+        {found.length > 0 && (
+          <div className="mb-9 border-t border-line pt-7">
+            <h2 className="font-display text-xl text-ink">{dict.result.found}</h2>
+            <p className="mb-4 text-xs text-muted">{dict.result.verifiedTag}</p>
+            <dl className="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
+              {found.map((it) => (
+                <div key={it.label} className="flex items-baseline gap-2.5">
+                  <span aria-hidden className="text-accent">
+                    ✓
+                  </span>
+                  <dt className="text-sm text-muted">{it.label}</dt>
+                  <dd className="text-sm font-medium text-ink">{it.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
+
+        {/* 5. What it won't say */}
+        {missing.length > 0 && (
+          <div className="mb-9 border-t border-line pt-7">
+            <h2 className="mb-4 font-display text-xl text-ink">
+              {dict.result.missing}
+            </h2>
+            <ul className="flex flex-wrap gap-2">
+              {missing.map((label) => (
+                <li
+                  key={label}
+                  className="rounded-full border border-dashed border-line px-3.5 py-1.5 text-sm text-muted"
+                >
+                  {label}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* 6. Audited brand */}
+        {data.brandMatch?.ref && (
+          <div className="mb-9 border-t border-line pt-7">
+            <p className="text-sm leading-relaxed text-ink">
+              <span className="font-display text-base font-semibold text-accent">
+                {data.brandMatch.name}
+              </span>{" "}
+              <span className="text-muted">— {dict.result.brandMatch}</span>
+            </p>
+          </div>
+        )}
+
+        {/* 7. Confidence */}
+        <div className="flex items-baseline gap-2 border-t border-line pt-7">
+          <Kicker>{dict.result.confidenceLabel}</Kicker>
+          <span className="text-sm font-medium text-ink">
+            {dict.result.confidence[data.confidence]}
+          </span>
+        </div>
       </div>
     </article>
   );

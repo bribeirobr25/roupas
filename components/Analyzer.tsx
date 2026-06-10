@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/provider";
 import type { AnalyzeOk, AnalyzeResult } from "@/lib/types";
+import { EXAMPLES } from "@/lib/examples";
 import { AnalyzingState } from "./AnalyzingState";
 import { ResultCard } from "./ResultCard";
 
@@ -30,8 +31,9 @@ export function Analyzer() {
   const [invalid, setInvalid] = useState(false);
   const [state, setState] = useState<UiState>({ status: "input" });
 
-  async function analyze() {
-    if (!isValidHttpUrl(url)) {
+  async function analyze(target?: string) {
+    const value = (target ?? url).trim();
+    if (!isValidHttpUrl(value)) {
       setInvalid(true);
       return;
     }
@@ -44,15 +46,13 @@ export function Analyzer() {
       const res = await fetch("/api/analyze", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ url: url.trim() }),
+        body: JSON.stringify({ url: value }),
         signal: controller.signal,
       });
       const data = (await res.json()) as AnalyzeResult;
-      if (data.status === "ok") {
-        setState({ status: "result", data });
-      } else {
-        setState({ status: "error" });
-      }
+      setState(
+        data.status === "ok" ? { status: "result", data } : { status: "error" },
+      );
     } catch {
       setState({ status: "error" });
     } finally {
@@ -66,6 +66,11 @@ export function Analyzer() {
     setInvalid(false);
   }
 
+  function pickExample(exampleUrl: string) {
+    setUrl(exampleUrl);
+    void analyze(exampleUrl);
+  }
+
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     void analyze();
@@ -74,36 +79,53 @@ export function Analyzer() {
   return (
     <div className="w-full" aria-live="polite">
       {state.status === "input" && (
-        <form onSubmit={onSubmit} className="w-full" noValidate>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <input
-              type="url"
-              inputMode="url"
-              autoComplete="off"
-              value={url}
-              onChange={(e) => {
-                setUrl(e.target.value);
-                if (invalid) setInvalid(false);
-              }}
-              placeholder={dict.input.placeholder}
-              aria-label={dict.input.placeholder}
-              aria-invalid={invalid}
-              aria-describedby={invalid ? "url-error" : undefined}
-              className="flex-1 rounded-xl border border-line bg-paper-raised px-4 py-3.5 text-ink placeholder:text-muted/70 focus:border-accent"
-            />
-            <button
-              type="submit"
-              className="rounded-xl bg-ink px-6 py-3.5 font-medium text-paper transition-opacity hover:opacity-90"
-            >
-              {dict.input.button}
-            </button>
+        <div className="w-full">
+          <form onSubmit={onSubmit} noValidate>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <input
+                type="url"
+                inputMode="url"
+                autoComplete="off"
+                value={url}
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                  if (invalid) setInvalid(false);
+                }}
+                placeholder={dict.input.placeholder}
+                aria-label={dict.input.placeholder}
+                aria-invalid={invalid}
+                aria-describedby={invalid ? "url-error" : undefined}
+                className="flex-1 rounded-full border border-line bg-paper-raised px-5 py-4 text-ink placeholder:text-muted/70 focus:border-accent"
+              />
+              <button
+                type="submit"
+                className="rounded-full bg-accent px-7 py-4 font-medium text-white transition-colors hover:bg-accent-deep"
+              >
+                {dict.input.button}
+              </button>
+            </div>
+            {invalid && (
+              <p id="url-error" role="alert" className="mt-3 text-sm text-bad">
+                {dict.input.errorInvalid}
+              </p>
+            )}
+          </form>
+
+          {/* Engagement: one-tap example reads (audited houses + a mall brand). */}
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            <span className="text-sm text-muted">{dict.input.tryExamples}</span>
+            {EXAMPLES.map((ex) => (
+              <button
+                key={ex.label}
+                type="button"
+                onClick={() => pickExample(ex.url)}
+                className="rounded-full border border-line bg-paper-raised px-3.5 py-1.5 text-sm text-ink transition-colors hover:border-accent hover:text-accent"
+              >
+                {ex.label}
+              </button>
+            ))}
           </div>
-          {invalid && (
-            <p id="url-error" role="alert" className="mt-2 text-sm text-bad">
-              {dict.input.errorInvalid}
-            </p>
-          )}
-        </form>
+        </div>
       )}
 
       {state.status === "analyzing" && <AnalyzingState />}
@@ -114,7 +136,7 @@ export function Analyzer() {
           <button
             type="button"
             onClick={reset}
-            className="rounded-xl border border-line px-5 py-3 text-sm font-medium text-ink transition-colors hover:bg-paper-raised"
+            className="rounded-full border border-line px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent"
           >
             {dict.result.again}
           </button>
@@ -125,17 +147,17 @@ export function Analyzer() {
         <div className="space-y-6">
           <div
             role="alert"
-            className="rounded-2xl border border-line bg-paper-raised p-6 sm:p-8"
+            className="roupas-rise rounded-3xl border border-line bg-paper-raised p-7 sm:p-9"
           >
-            <p className="font-display text-xl text-ink mb-2">
+            <p className="font-display text-2xl italic text-ink">
               {dict.result.confidence.unreadable}
             </p>
-            <p className="text-muted">{dict.error.unreadable}</p>
+            <p className="mt-3 text-muted">{dict.error.unreadable}</p>
           </div>
           <button
             type="button"
             onClick={reset}
-            className="rounded-xl border border-line px-5 py-3 text-sm font-medium text-ink transition-colors hover:bg-paper-raised"
+            className="rounded-full border border-line px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-accent hover:text-accent"
           >
             {dict.result.again}
           </button>

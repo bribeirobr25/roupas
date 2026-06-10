@@ -13,6 +13,7 @@ export const ptBR: Dict = {
     button: "Analisar",
     analyzing: "Analisando…",
     errorInvalid: "Isso não parece um link válido. Confira e tente de novo.",
+    tryExamples: "Sem um link à mão? Analise um destes:",
   },
   analyzing: {
     steps: ["Lendo a etiqueta…", "Comparando com o guia…", "Avaliando o tecido…"],
