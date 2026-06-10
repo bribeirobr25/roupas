@@ -1,52 +1,57 @@
 import type { Dict } from "./en";
 
-// Deutsch. Copy-Basis aus I18N.md §3.
+// Deutsch. Adaption der Don-Draper-Stimme (EN) — keine 1:1-Übersetzung:
+// präzise, trocken, qualitätsversessen, mit dem Wortspiel "mehr Schein als
+// Stoff". Du-Form, wie es modische Marken tun.
 export const de: Dict = {
   app: {
-    headlineLead: "ist dieser stoff",
-    headlineMain: "wirklich gut?",
-    tagline:
-      "Füge den Link eines Kleidungsstücks ein. Wir lesen den Stoff und sagen dir, ob er wirklich gut ist – und ob er knittert.",
+    headlineLead: "Anziehen kann sich jeder.",
+    headlineMain: "Wenige wissen, was sie tragen.",
+    tagline: "Vergiss den Preis. Vergiss die Marke. Lies den Stoff, nicht das Etikett.",
   },
   input: {
-    placeholder: "Produkt-URL einfügen (T-Shirt, Hemd, Sweatshirt oder Hoodie)",
-    button: "Analysieren",
-    analyzing: "Analysiere…",
-    errorInvalid: "Das sieht nicht nach einem gültigen Link aus. Bitte überprüfen.",
-    tryExamples: "Kein Link zur Hand? Analysiere einen davon:",
+    placeholder: "Link einfügen. T-Shirt, Hemd, Sweat oder Hoodie.",
+    button: "Lesen",
+    analyzing: "Liest…",
+    errorInvalid: "Diesem Link können wir nicht folgen. Prüf ihn und versuch's nochmal.",
+    tryExamples: "Kein Link zur Hand? Lies einen davon:",
   },
   analyzing: {
-    steps: ["Etikett wird gelesen…", "Abgleich mit dem Leitfaden…", "Stoff wird bewertet…"],
-    aria: "Die Produktseite wird analysiert",
+    steps: [
+      "Liest den Faden…",
+      "Wiegt die Wahrheit…",
+      "Trennt Können von Kulisse…",
+    ],
+    aria: "Liest den Stoff",
   },
   result: {
-    detectedCategory: "Erkannte Kategorie",
-    categoryLow: "Wir sind uns bei der Kategorie nicht ganz sicher. Bitte beachten.",
+    detectedCategory: "Was es ist",
+    categoryLow: "Beim Schnitt lesen wir zwischen den Zeilen. Behalt das im Hinterkopf.",
     quality: "Qualität",
     wrinkleQuestion: "Knittert es?",
-    found: "Was wir gefunden haben",
-    missing: "Nicht bestätigt (Etikett prüfen)",
-    confidenceLabel: "Verlässlichkeit",
-    brandMatch: "Geprüfte Marke. Wir haben verifizierte Referenzdaten.",
-    again: "Weiteres Teil analysieren",
-    verifiedTag: "von der Seite gelesen",
+    found: "Was der Stoff zugibt",
+    missing: "Was er verschweigt. Prüf das Etikett.",
+    confidenceLabel: "Wie sicher wir sind",
+    brandMatch: "Ein Haus, das wir kennen. Dieses haben wir an der Quelle geprüft.",
+    again: "Noch eins lesen",
+    verifiedTag: "direkt von der Seite",
     inferredTag: "am Etikett prüfen",
     band: {
-      high: "Hohe Qualität",
-      medium: "Solide Qualität",
-      low: "Niedrige Qualität",
-      indeterminate: "Nicht genug Daten für ein Urteil",
+      high: "Das Echte",
+      medium: "Ehrlich gut",
+      low: "Mehr Schein als Stoff",
+      indeterminate: "Das Etikett schweigt",
     },
     wrinkle: {
-      low: "Knittert kaum",
-      medium: "Knittert etwas",
-      high: "Knittert stark",
-      unknown: "Nicht feststellbar",
+      low: "Behält Haltung",
+      medium: "Knittert ein wenig",
+      high: "Knittert munter",
+      unknown: "Sagt nichts",
     },
     confidence: {
-      verified: "Bestätigt",
-      partial: "Teilweise",
-      unreadable: "Seite nicht lesbar",
+      verified: "Wir sind sicher",
+      partial: "Die halbe Geschichte",
+      unreadable: "Die Tür blieb zu",
     },
   },
   category: {
@@ -54,7 +59,7 @@ export const de: Dict = {
     shirt: "Hemd",
     pullover: "Sweatshirt",
     hoodie: "Hoodie",
-    unknown: "Unbekanntes Teil",
+    unknown: "Schwer einzuordnen",
   },
   finding: {
     fiber: "Zusammensetzung",
@@ -69,14 +74,14 @@ export const de: Dict = {
   },
   value: {
     yes: "Ja",
-    nonIron: "Bügelfrei-Ausrüstung",
+    nonIron: "Knitterfrei ausgerüstet",
   },
   error: {
     unreadable:
-      "Wir konnten diese Seite nicht automatisch lesen. Manche Shops blockieren das. Versuche einen anderen Link oder prüfe das Etikett mit unserem Qualitätsleitfaden.",
+      "Manche Shops hüten ihre Geheimnisse hinter Glas. Dieser lässt uns das Etikett nicht lesen. Versuch einen anderen Link, oder mach's auf die alte Art und lies das Etikett selbst.",
   },
   ads: {
-    placeholder: "Werbefläche",
+    placeholder: "Diese Fläche ist zu vermieten",
   },
   language: {
     label: "Sprache",

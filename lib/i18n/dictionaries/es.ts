@@ -1,52 +1,57 @@
 import type { Dict } from "./en";
 
-// Español. Copy base de I18N.md §3.
+// Español (España). Adaptación de la voz Don Draper (EN) — no traducción literal:
+// expresiva, con ritmo y elegancia, modismos propios ("aguanta el tipo") y el
+// juego "más etiqueta que tela". Tuteo, como hacen las marcas de moda.
 export const es: Dict = {
   app: {
-    headlineLead: "¿este tejido es",
-    headlineMain: "realmente bueno?",
-    tagline:
-      "Pega el enlace de una prenda. Leemos el tejido y te decimos si es realmente bueno. Y si se arruga.",
+    headlineLead: "Cualquiera se viste.",
+    headlineMain: "Pocos saben lo que llevan.",
+    tagline: "Olvida el precio. Olvida la marca. Lee la tela, no la etiqueta.",
   },
   input: {
-    placeholder: "Pega la URL del producto (camiseta, camisa, sudadera o sudadera con capucha)",
-    button: "Analizar",
-    analyzing: "Analizando…",
-    errorInvalid: "Eso no parece un enlace válido. Revísalo e inténtalo de nuevo.",
-    tryExamples: "¿No tienes un enlace? Analiza uno de estos:",
+    placeholder: "Pega el enlace. Camiseta, camisa, sudadera o hoodie.",
+    button: "Leer",
+    analyzing: "Leyendo…",
+    errorInvalid: "Ese enlace no podemos seguirlo. Revísalo e inténtalo de nuevo.",
+    tryExamples: "¿Sin un enlace a mano? Lee uno de estos:",
   },
   analyzing: {
-    steps: ["Leyendo la etiqueta…", "Comparando con la guía…", "Evaluando el tejido…"],
-    aria: "Analizando la página del producto",
+    steps: [
+      "Leyendo el hilo…",
+      "Pesando la verdad…",
+      "Separando el oficio del cuento…",
+    ],
+    aria: "Leyendo la tela",
   },
   result: {
-    detectedCategory: "Categoría detectada",
-    categoryLow: "No estamos del todo seguros de la categoría. Tenlo en cuenta.",
+    detectedCategory: "Qué es",
+    categoryLow: "Estamos leyendo entre líneas en el corte. Tenlo en cuenta.",
     quality: "Calidad",
     wrinkleQuestion: "¿Se arruga?",
-    found: "Lo que encontramos",
-    missing: "No pudimos confirmar (revisa la etiqueta)",
-    confidenceLabel: "Confianza",
-    brandMatch: "Marca auditada. Tenemos datos de referencia verificados.",
-    again: "Analizar otra prenda",
-    verifiedTag: "leído de la página",
-    inferredTag: "a revisar en la etiqueta",
+    found: "Lo que confiesa la tela",
+    missing: "Lo que calla. Mira la etiqueta.",
+    confidenceLabel: "Nuestra certeza",
+    brandMatch: "Una casa que conocemos. A esta la hemos leído en la fuente.",
+    again: "Leer otra",
+    verifiedTag: "directo de la página",
+    inferredTag: "confirmar en la etiqueta",
     band: {
-      high: "Alta calidad",
-      medium: "Calidad aceptable",
-      low: "Baja calidad",
-      indeterminate: "Datos insuficientes para concluir",
+      high: "Lo auténtico",
+      medium: "Honestamente bien",
+      low: "Más etiqueta que tela",
+      indeterminate: "La etiqueta calla",
     },
     wrinkle: {
-      low: "Apenas se arruga",
+      low: "Aguanta el tipo",
       medium: "Se arruga un poco",
-      high: "Se arruga mucho",
-      unknown: "No se puede saber",
+      high: "Se arruga sin reparo",
+      unknown: "No lo dice",
     },
     confidence: {
-      verified: "Verificado",
-      partial: "Parcial",
-      unreadable: "No se pudo leer la página",
+      verified: "Estamos seguros",
+      partial: "Media historia",
+      unreadable: "La puerta siguió cerrada",
     },
   },
   category: {
@@ -54,7 +59,7 @@ export const es: Dict = {
     shirt: "Camisa",
     pullover: "Sudadera",
     hoodie: "Sudadera con capucha",
-    unknown: "Prenda no identificada",
+    unknown: "Difícil de ubicar",
   },
   finding: {
     fiber: "Composición",
@@ -69,14 +74,14 @@ export const es: Dict = {
   },
   value: {
     yes: "Sí",
-    nonIron: "Tratamiento no plancha",
+    nonIron: "Tratada para no arrugarse",
   },
   error: {
     unreadable:
-      "No pudimos leer esta página automáticamente. Algunas tiendas lo bloquean. Prueba otro enlace o revisa la etiqueta con nuestra guía de calidad.",
+      "Algunas tiendas guardan sus secretos bajo llave. Esta no nos deja leer la etiqueta. Prueba otro enlace, o hazlo a la antigua y lee la etiqueta tú mismo.",
   },
   ads: {
-    placeholder: "Espacio publicitario",
+    placeholder: "Este espacio se alquila",
   },
   language: {
     label: "Idioma",

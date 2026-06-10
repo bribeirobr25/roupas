@@ -1,52 +1,57 @@
 import type { Dict } from "./en";
 
-// Português (Brasil). Copy base de I18N.md §3.
+// Português (Brasil). Adaptação da voz Don Draper do EN — não tradução literal:
+// confiante, com um toque de malícia e calor brasileiro, vendendo o desejo de
+// saber a verdade ("leia o tecido, não a etiqueta").
 export const ptBR: Dict = {
   app: {
-    headlineLead: "esse tecido é",
-    headlineMain: "realmente bom?",
-    tagline:
-      "Cole o link de uma peça de roupa. A gente lê o tecido e diz se é realmente bom. E se amassa.",
+    headlineLead: "Qualquer um se veste.",
+    headlineMain: "Poucos sabem o que vestem.",
+    tagline: "Esqueça o preço. Esqueça a marca. Leia o tecido, não a etiqueta.",
   },
   input: {
-    placeholder: "Cole a URL do produto (camiseta, camisa, moletom ou moletom com capuz)",
-    button: "Analisar",
-    analyzing: "Analisando…",
-    errorInvalid: "Isso não parece um link válido. Confira e tente de novo.",
-    tryExamples: "Sem um link à mão? Analise um destes:",
+    placeholder: "Cole o link. Camiseta, camisa, moletom ou hoodie.",
+    button: "Ler",
+    analyzing: "Lendo…",
+    errorInvalid: "Esse link a gente não consegue seguir. Confira e tente de novo.",
+    tryExamples: "Sem um link à mão? Leia um destes:",
   },
   analyzing: {
-    steps: ["Lendo a etiqueta…", "Comparando com o guia…", "Avaliando o tecido…"],
-    aria: "Analisando a página do produto",
+    steps: [
+      "Lendo o fio…",
+      "Pesando a verdade…",
+      "Separando o pano da conversa…",
+    ],
+    aria: "Lendo o tecido",
   },
   result: {
-    detectedCategory: "Categoria detectada",
-    categoryLow: "Não temos certeza total da categoria. Leve isso em conta.",
+    detectedCategory: "O que é",
+    categoryLow: "Estamos lendo nas entrelinhas do corte. Leve isso em conta.",
     quality: "Qualidade",
-    wrinkleQuestion: "Amassa muito?",
-    found: "O que encontramos",
-    missing: "Não foi possível confirmar (confira na etiqueta)",
-    confidenceLabel: "Confiança",
-    brandMatch: "Marca auditada. Temos dados de referência verificados.",
-    again: "Analisar outra peça",
-    verifiedTag: "lido da página",
-    inferredTag: "a conferir na etiqueta",
+    wrinkleQuestion: "Amassa?",
+    found: "O que o tecido entrega",
+    missing: "O que ele não diz. Confira na etiqueta.",
+    confidenceLabel: "Nossa certeza",
+    brandMatch: "Uma casa que a gente conhece. Esta a gente conferiu na fonte.",
+    again: "Ler outra",
+    verifiedTag: "direto da página",
+    inferredTag: "confirmar na etiqueta",
     band: {
-      high: "Alta qualidade",
-      medium: "Qualidade razoável",
-      low: "Baixa qualidade",
-      indeterminate: "Dados insuficientes para concluir",
+      high: "Coisa de verdade",
+      medium: "Honestamente bom",
+      low: "Mais etiqueta que tecido",
+      indeterminate: "A etiqueta se cala",
     },
     wrinkle: {
-      low: "Quase não amassa",
+      low: "Mantém a pose",
       medium: "Amassa um pouco",
-      high: "Amassa bastante",
-      unknown: "Não dá para saber",
+      high: "Amassa à vontade",
+      unknown: "Não diz",
     },
     confidence: {
-      verified: "Verificado",
-      partial: "Parcial",
-      unreadable: "Não foi possível ler a página",
+      verified: "Temos certeza",
+      partial: "Metade da história",
+      unreadable: "A porta ficou fechada",
     },
   },
   category: {
@@ -54,7 +59,7 @@ export const ptBR: Dict = {
     shirt: "Camisa",
     pullover: "Moletom",
     hoodie: "Moletom com capuz",
-    unknown: "Peça não identificada",
+    unknown: "Difícil dizer",
   },
   finding: {
     fiber: "Composição",
@@ -69,14 +74,14 @@ export const ptBR: Dict = {
   },
   value: {
     yes: "Sim",
-    nonIron: "Tratamento não passa",
+    nonIron: "Tratado pra não amassar",
   },
   error: {
     unreadable:
-      "Não conseguimos ler esta página automaticamente. Algumas lojas bloqueiam. Tente outro link, ou confira a etiqueta usando nosso guia de qualidade.",
+      "Algumas lojas guardam seus segredos a sete chaves. Esta não deixa a gente ler a etiqueta. Tente outro link, ou faça do jeito antigo e leia a etiqueta você mesmo.",
   },
   ads: {
-    placeholder: "Espaço publicitário",
+    placeholder: "Este espaço está à venda",
   },
   language: {
     label: "Idioma",
