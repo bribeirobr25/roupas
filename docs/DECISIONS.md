@@ -19,6 +19,8 @@ Implicações:
 3. **Dado que não existe:** Zara/H&M frequentemente não publicam GSM. Não há solução técnica — só a etiqueta física. A ferramenta diz isso honestamente (`partial`, score `indeterminate`).
 4. **Free tier do Vercel:** limites de execução/tempo das serverless functions. Manter a função enxuta; sem dependências pesadas de scraping headless na v1.
 
+> **Postura de segurança (2026-06-14).** Como `/api/analyze` busca uma URL do usuário no servidor, há proteções: guarda anti-SSRF (rejeita IPs privados/reservados, portas fora de 80/443 e nomes internos; revalida cada redirect), teto de 4 MB no corpo lido (anti-OOM), e rate limit por IP. **Limitações honestas:** o rate limit é em memória/por-instância (best-effort; produção real → Vercel Firewall/BotID) e a guarda SSRF tem resíduo de DNS rebinding (TOCTOU). Detalhe no registro de build (§5.4, 2026-06-14).
+
 ## 3. Decisões travadas pelo dono (recap)
 - Full-stack real; proxy serverless; Vercel free; i18n EN/PT-BR/DE/ES com detecção por browser; 4 categorias; ads como placeholder; UI minimalista com identidade de moda; stack à escolha do Claude Code; nunca inventar dados.
 
@@ -153,6 +155,16 @@ Sem outras dependências pesadas. Testes com `vitest` (rápido, TS nativo). Fixt
   - **Sem travessões "—" na UI** (viraram ponto/vírgula/·); removido o kicker "Fabric Report".
   - **Engajamento:** exemplos clicáveis **por mercado** (`lib/examples.ts`, `EXAMPLES_BY_LOCALE`): EN→US/UK, PT-BR→Brasil, DE→Alemanha, ES→Espanha — todas as URLs vetadas ao vivo. Nova chave i18n `input.tryExamples`.
   - Validado visualmente (desktop/mobile, 4 idiomas) via Playwright (instalado/removido só para a checagem; não fica no projeto). Acessibilidade preservada (foco chartreuse, aria-live, contraste). 62 testes verdes. Commits: `f679041` → `e35379f` (etiqueta) → `02302ef` → `56ff782` (sem dash + exemplos por mercado) → `378bd8d` (Draper PT/DE/ES).
+
+- **2026-06-14 — Endurecimento de segurança + sync de i18n/CI (revisão pós-deploy).** Sem mudança de lógica de parser/KB. Tudo com teste e validação visual (Docker MCP, EN+DE, 4 estados). Branch `hardening/security-a11y-i18n-ci` → 6 commits atômicos em `main`.
+  - **SSRF (`lib/extract`):** `assertSafeUrl` rejeita IPs privados/reservados (IPv4+IPv6, incl. metadata `169.254.169.254`), portas fora de 80/443 e nomes internos (localhost/.local/.internal/host sem ponto); resolve DNS e revalida. `safeFetch` segue redirects manualmente, revalidando cada hop. Resíduo: DNS rebinding (TOCTOU) — documentado; fechar exige dispatcher próprio, fora do free tier.
+  - **OOM:** corpo de resposta (fetch direto e reader-proxy) lido com teto de 4 MB (`readBodyCapped`).
+  - **Rate limit (`route.ts`):** janela deslizante por IP em memória (30/min) → `429` + `Retry-After`; novo `UnreadableReason: "rate-limited"` (SPEC §3). Best-effort/por-instância; produção real → Vercel Firewall/BotID (anotado no código).
+  - **Headers de segurança (`next.config.ts`):** CSP (`frame-ancestors 'none'`, `object-src 'none'`, script/style/connect/font/img escopados), X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy, HSTS. Dev relaxa `script-src 'unsafe-eval'` + `connect-src ws:` (HMR); produção estrita.
+  - **CI:** `.github/workflows/ci.yml` (pnpm 10 + Node 22) roda lint+test+build em push/PR — não existia antes.
+  - **i18n (sem string hard-coded):** 5 literais que vazavam inglês (header da etiqueta, selo Audited, kicker de erro, kicker analyzing, tagline do rodapé) movidos para os 4 dicionários — novas chaves `app.footerTagline`, `analyzing.reading`, `result.reportLabel/auditedTag/noReading` (I18N §2).
+  - **a11y/perf:** removido `aria-live` aninhado (uma única região no Analyzer); pesos do Bodoni Moda reduzidos aos usados (400/600/700/900; o 300 não existe na fonte e o 500/800 não eram usados).
+  - **Gate:** **67 testes** (suíte +8 de SSRF), tsc/lint/build verdes. Headers/SSRF/rate-limit/happy-path validados ao vivo (curl) e no browser (Docker MCP, EN+DE, estados input/analyzing/result/error, zero erro de console).
 
 ## 6. Status do Definition of Done (CLAUDE.md §8)
 

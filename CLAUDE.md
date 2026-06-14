@@ -128,4 +128,6 @@ Estes são padrões de trabalho estabelecidos. Seguir:
 - [x] Responsivo, acessível, deploy no Vercel free funcionando.
 - [x] README com instruções de dev e deploy.
 
+> Endurecimento pós-v1 (2026-06-14): guarda anti-SSRF + teto de corpo (anti-OOM) no leitor, rate limit por IP, headers de segurança/CSP, workflow de CI, e i18n sem strings hard-coded. Detalhe em `docs/DECISIONS.md §2` e `§5.4`.
+
 > Pendências não-bloqueantes: nome final (`[NOME_DO_PROJETO]` ainda placeholder — dono optou por decidir depois; centralizado em `lib/brand.ts`); revisão nativa do copy ES.

@@ -52,8 +52,10 @@
 
 **Response (não foi possível ler):**
 ```json
-{ "status": "unreadable", "reason": "anti-bot | js-heavy | not-found | timeout | blocked", "messageKey": "error.unreadable" }
+{ "status": "unreadable", "reason": "anti-bot | js-heavy | not-found | timeout | blocked | rate-limited", "messageKey": "error.unreadable" }
 ```
+
+> **Nota de segurança (2026-06-14):** `reason: "rate-limited"` acompanha um HTTP **429** + header `Retry-After` quando o IP excede o limite (30/min) — ver DECISIONS §2 e §5.4. URL inválida continua retornando **400**; URL que aponta para host interno/privado (guarda anti-SSRF) retorna `reason: "blocked"`. O frontend trata qualquer `status: "unreadable"` como o estado de erro honesto.
 
 Regras:
 - Todo texto exibível ao usuário vem por **chave de i18n** (`messageKey`/`noteKey`), nunca string pronta da API. A API devolve chaves + dados; o frontend traduz. (Exceção: valores extraídos como "100% organic cotton" são dados, exibidos como vêm.)

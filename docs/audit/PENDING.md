@@ -16,12 +16,9 @@ Contexto: leitura completa de CLAUDE.md, README, AGENTS.md, docs/ e código (par
 - **Sugestão:** validar `http(s)://` + host plausível no cliente (SPEC §2 já prevê "validação de URL no cliente") e/ou no início do route handler, retornando um `message_key` específico (ex.: `input.error.invalid`) antes de tentar a rede.
 - **Estado:** aberto. Baixo esforço.
 
-### 🔵 P-002 — Verificação visual dos estados da UI (analyzing / result / error)
-- **O que:** a home (estado input) foi validada visualmente ao vivo (desktop 1280px) e está fiel à identidade editorial. Os estados **analyzing**, **result** e **error/unreadable** NÃO foram validados visualmente nesta revisão.
-- **Por que importa:** o contrato da API e a lógica estão confirmados, mas falta confirmar o render real desses estados (animação + cards placeholder; ordem de leitura do resultado conforme SPEC §4; diferenciação visual verified vs. a-conferir; mensagem honesta de erro).
-- **Bloqueio na revisão:** o servidor de browser (Docker MCP) ficou intermitente (timeouts de ~4 min), impedindo a interação completa. A captura da home funcionou; o snapshot/interação não.
-- **Sugestão:** reexecutar a verificação visual quando o MCP do Docker estiver estável (mobile 430px + desktop 1280px), cobrindo os 4 estados. O DECISIONS §5.4 menciona validação via Playwright em build de produção — confirmar que continua válido na URL pública.
-- **Estado:** aberto, pendente de ferramenta estável.
+### ✅ P-002 — Verificação visual dos estados da UI (analyzing / result / error) — RESOLVIDO (2026-06-14)
+- **O que:** os 4 estados (input / analyzing / result / error) foram validados visualmente ao vivo via Docker MCP (desktop 1280px) no build de produção local, em EN e DE.
+- **Resolução:** fluxo completo exercitado (exemplo clicável + URL digitada → analyzing → etiqueta de resultado com selo AUDITED + confiança; e URL bloqueada → erro honesto "No reading"/"Keine Lesung"). Hydration e fetch same-origin OK sob a CSP nova; **zero erro de console**. Render confere com SPEC §4 (ordem do resultado, verified vs. a-conferir). Detalhe em DECISIONS §5.4 (2026-06-14).
 
 ---
 
@@ -42,5 +39,5 @@ Contexto: leitura completa de CLAUDE.md, README, AGENTS.md, docs/ e código (par
 ---
 
 ## Notas
-- Os itens P-003/P-004 são "lembretes", não defeitos do código. P-001 e P-002 são as pendências reais da v1.
+- Os itens P-003/P-004 são "lembretes", não defeitos do código. P-002 foi resolvido (2026-06-14, validação visual). P-001 segue a única pendência real de UX da v1 (o cliente já valida `http(s)` e mostra `input.errorInvalid` antes da rede; o route devolve 400 como rede de segurança).
 - Atualizar este arquivo a cada revisão; mover itens concluídos para uma seção "Resolvidos" com data.

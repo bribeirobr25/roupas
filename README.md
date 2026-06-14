@@ -82,6 +82,28 @@ nav/footer, links, and related-product cards/carousels, reads JSON-LD only from
 (e.g. "1% of the global cotton production" is not a 1% cotton composition). It
 reports only what the product page actually states. See `docs/PARSER.md §4.1`.
 
+## Security & hardening
+
+Because `/api/analyze` fetches a user-supplied URL server-side, it is hardened:
+
+- **SSRF guard** — rejects private/reserved IPs (incl. cloud metadata `169.254.169.254`),
+  non-80/443 ports, and internal hostnames; resolves DNS and re-validates every
+  redirect hop. Residual DNS-rebinding (TOCTOU) is documented, not closed.
+- **Response-size cap** — bodies are read with a 4 MB ceiling (OOM guard).
+- **Rate limit** — per-IP sliding window (30/min) → `429` + `Retry-After`. It is
+  best-effort/in-memory; production-grade limiting should use Vercel Firewall/BotID.
+- **Security headers** — CSP (`frame-ancestors 'none'`, `object-src 'none'`, scoped
+  sources), `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`,
+  `Permissions-Policy`, HSTS (set in `next.config.ts`; dev relaxes script/connect for HMR).
+
+No cookies, analytics, or personal data are collected; the only client storage is the
+chosen language (`localStorage`). See `docs/DECISIONS.md §2` / `§5.4`.
+
+## CI
+
+`/.github/workflows/ci.yml` runs `lint`, `test`, and `build` on every push and PR
+(pnpm + Node 22).
+
 ## Honest limitations
 
 Data that shops never publish (e.g. GSM at Zara/H&M) cannot be invented — the app
